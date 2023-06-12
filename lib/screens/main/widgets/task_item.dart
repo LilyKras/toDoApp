@@ -1,65 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/helpers/tasks.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_list/helpers/constants.dart';
+import 'package:to_do_list/providers/task.dart';
+import 'package:intl/intl.dart';
 
+import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
+import '../../new_task/new_task_screen.dart';
 
-class TaskItem extends StatefulWidget {
+class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.task});
   final Task task;
 
   @override
-  State<TaskItem> createState() => _TaskItemState();
-}
-
-class _TaskItemState extends State<TaskItem> {
-  @override
   Widget build(BuildContext context) {
+    String emojies = "";
+    if (task.priority == Priority.hight){
+      emojies = "❗";
+    }
+    if (task.priority == Priority.low){
+      emojies = "⬇";
+    }
     return Dismissible(
-        background: Container(
-          color: Colors.green,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.done, color: Colors.white),
-        ),
-        secondaryBackground: Container(
-          color: Colors.red,
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.delete, color: Colors.white),
-        ),
-        key: ValueKey<Task>(widget.task),
-        onDismissed: (DismissDirection direction) {
-          if (direction == DismissDirection.endToStart) {
-            debugPrint("Delete");
-            setState(() {
-              deleteById(widget.task.id);
-            });
-          } else {
-            debugPrint("Done");
-            setState(() {
-              widget.task.changeStatus();
-            });
-          }
-        },
-        child: Padding(
+      background: Container(
+        color: greenLight,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.all(10),
+        child: const Icon(Icons.done, color: whiteLight),
+      ),
+      secondaryBackground: Container(
+        color: redLight,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.all(10),
+        child: const Icon(Icons.delete, color: whiteLight),
+      ),
+      key: ValueKey(task),
+      onDismissed: (DismissDirection direction) {
+        if (direction == DismissDirection.endToStart) {
+          debugPrint("Delete");
+          Provider.of<Tasks>(context, listen: false).deleteTask(task.id);
+        } else {
+          debugPrint("Done/Undone");
+          Provider.of<Tasks>(context, listen: false).toggleDoneStatus(task.id);
+        }
+      },
+      child: Consumer<Tasks>(
+        builder: (ctx, value, _) => Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Checkbox(
-                value: widget.task.doneStatus,
+                value: task.doneStatus,
                 onChanged: (_) {
-                  setState(() {
-                    widget.task.changeStatus();
-                  });
+                  if (task.doneStatus) ;
+                  value.toggleDoneStatus(task.id);
                 },
                 fillColor: MaterialStateProperty.resolveWith(
                   (Set<MaterialState> states) {
                     if (states.contains(MaterialState.selected)) {
-                      return Colors.green;
+                      return greenLight;
                     } else {
-                      return Colors.red;
+                      return task.priority == Priority.hight ? redLight: supportLightSeparator;
+                      
                     }
                   },
                 ),
@@ -73,27 +77,36 @@ class _TaskItemState extends State<TaskItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        widget.task.text,
-                        maxLines: 3,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          emojies + task.text,
+                          maxLines: 3,
+                           style: (task.doneStatus)? const TextStyle(decoration: TextDecoration.lineThrough, color: labelLightTertiary, fontSize: 16, height: 20/16, decorationColor: labelLightTertiary):const TextStyle(color: labelLightPrimary, fontSize: 16, height: 20/16),
+                        ),
                       ),
-                      Text(widget.task.date.toString()),
+                      if (task.hasDate)
+                        Text(DateFormat.yMMMMd("ru").format(task.date!), style: const TextStyle(color:labelLightTertiary, fontSize: 14, height: 20/14),),
                     ],
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 14),
-                child: Icon(
+              IconButton(
+                color: labelLightTertiary,
+                icon: const Icon(
                   Icons.info_outline,
-                  size:20,
+                  size: 25,
                 ),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(NewTaskScreen.routeName);
+                },
               ),
             ],
           ),
         ),
-      );
-
+      ),
+    );
   }
 }
