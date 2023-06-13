@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/helpers/constants.dart';
 import 'package:to_do_list/providers/task.dart';
@@ -7,6 +8,8 @@ import 'package:intl/intl.dart';
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
 import '../../save_task/save_task_screen.dart';
+
+var logger = Logger();
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.task});
@@ -50,8 +53,9 @@ class TaskItem extends StatelessWidget {
         if (direction == DismissDirection.endToStart) {
           return true;
         } else {
+          logger.i("Swipe mode is Done/Undone");
           Provider.of<Tasks>(context, listen: false).toggleDoneStatus(task.id);
-          debugPrint("Done/Undone");
+          logger.i("Toggle showDone mode");
           return false;
         }
       },
@@ -61,7 +65,7 @@ class TaskItem extends StatelessWidget {
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          debugPrint("Delete");
+          logger.i("Swipe mode is Delete");
           Provider.of<Tasks>(context, listen: false).deleteTask(task.id);
         }
       },
@@ -76,6 +80,7 @@ class TaskItem extends StatelessWidget {
                 value: task.doneStatus,
                 onChanged: (_) {
                   value.toggleDoneStatus(task.id);
+                  logger.i("Toggle showDone mode");
                 },
                 fillColor: MaterialStateProperty.resolveWith(
                   (Set<MaterialState> states) {
@@ -83,6 +88,7 @@ class TaskItem extends StatelessWidget {
                       return Theme.of(context).colorScheme.secondary;
                     } else {
                       return task.priority == Priority.hight
+                          // ignore: deprecated_member_use
                           ? Theme.of(context).errorColor
                           : Theme.of(context).dividerTheme.color;
                     }
@@ -158,6 +164,8 @@ class TaskItem extends StatelessWidget {
                   Navigator.of(context).pushReplacementNamed(
                       NewTaskScreen.routeName,
                       arguments: task);
+                  logger.i(
+                      "Change screen to SaveScreen, push arguments: Task with id ${task.id}");
                 },
               ),
             ],

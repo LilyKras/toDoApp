@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../../../models/task.dart';
+
+var logger = Logger();
 
 // ignore: must_be_immutable
 class TextForm extends StatelessWidget {
@@ -11,6 +14,7 @@ class TextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     text = arguments == null ? "" : arguments!.text;
+    logger.i("Initial text is $text");
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
@@ -22,8 +26,10 @@ class TextForm extends StatelessWidget {
             onSaved: (newValue) => text = newValue!,
             validator: (value) {
               if (value == null || value == "") {
+                logger.w("No task text");
                 return "Вы не ввели задачу";
               }
+              logger.i("Valid text form");
               return null;
             },
             style: TextStyle(

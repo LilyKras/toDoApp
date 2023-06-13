@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
 import 'package:provider/provider.dart';
 import '../../../providers/task.dart';
+
+var logger = Logger();
 
 class TaskAppBar extends StatelessWidget {
   const TaskAppBar({super.key});
@@ -25,6 +29,7 @@ class TaskAppBar extends StatelessWidget {
               padding: const EdgeInsets.only(top: 5),
               onPressed: () {
                 value.toggleShowDone();
+                logger.i("Toggle showDone mode");
               },
               icon: value.showUndone
                   ? Icon(
@@ -63,8 +68,8 @@ class TaskAppBar extends StatelessWidget {
       centerTitle: false,
       titleSpacing: 0.0,
       stretch: true,
-      snap:true,
-      floating:true,
+      snap: true,
+      floating: true,
       // ignore: deprecated_member_use
       backgroundColor: Theme.of(context).backgroundColor,
       pinned: true,

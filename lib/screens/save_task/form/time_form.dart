@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 import '../../../models/task.dart';
+
+var logger = Logger();
 
 // ignore: must_be_immutable
 class TimeForm extends StatefulWidget {
@@ -25,6 +28,8 @@ class _TimeFormState extends State<TimeForm> {
         widget.arguments == null ? false : widget.arguments!.hasDate;
     widget.selectedDate =
         widget.arguments == null ? null : widget.arguments!.date;
+    logger.i(
+        "Initial value hasDate is $hasDate, Initial value date is $selectedDate");
     super.didChangeDependencies();
   }
 
@@ -57,6 +62,7 @@ class _TimeFormState extends State<TimeForm> {
             inactiveTrackColor: Theme.of(context).shadowColor,
             onChanged: (bool val) async {
               if (!hasDate) {
+                logger.i("Open showDatePicker");
                 selectedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
@@ -71,9 +77,12 @@ class _TimeFormState extends State<TimeForm> {
                   hasDate = val;
                 });
               }
+              if (selectedDate == null) {
+                logger.w("No date selected");
+              }
               widget.hasDate = hasDate;
               widget.selectedDate = selectedDate;
-              debugPrint(hasDate.toString());
+              logger.i("New date = $selectedDate");
             },
             value: hasDate,
           ),

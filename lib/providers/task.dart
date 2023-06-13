@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:to_do_list/models/task.dart';
+
+var logger = Logger();
 
 class Tasks with ChangeNotifier {
   bool _showUndone = true;
@@ -40,6 +43,7 @@ class Tasks with ChangeNotifier {
 
   void addTask(Task task) {
     _myTasks.add(task);
+    logger.i("Add new task with id: ${task.id}");
     notifyListeners();
   }
 
@@ -47,9 +51,10 @@ class Tasks with ChangeNotifier {
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
     if (taskIndex >= 0) {
       _myTasks[taskIndex] = newTask;
+      logger.i("Update new task with id: $id");
       notifyListeners();
     } else {
-      debugPrint('...');
+      logger.w("There is no task with this id: $id");
     }
   }
 
@@ -58,6 +63,7 @@ class Tasks with ChangeNotifier {
         _myTasks.indexWhere((element) => element.id == id);
     if (_myTasks[existingTaskIndex].doneStatus) _counter -= 1;
     _myTasks.removeAt(existingTaskIndex);
+    logger.i("Remove task with id: $id");
     notifyListeners();
   }
 

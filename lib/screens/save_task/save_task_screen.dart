@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/screens/main/main_screen.dart';
 
@@ -8,6 +9,8 @@ import '../../providers/task.dart';
 import 'form/priority_form.dart';
 import 'form/text_form.dart';
 import 'form/time_form.dart';
+
+var logger = Logger();
 
 Priority stringToPriority(String priority) {
   if (priority == '‼ Высокий') {
@@ -42,11 +45,13 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     widget.enteredDate = timeForm.selectedDate;
     widget.hasDate = timeForm.hasDate;
     if (!_formKey.currentState!.validate()) {
+      logger.w("Form doesn't save because it is not valide");
       return false;
     }
     _formKey.currentState!.save();
     widget.enteredTask = textForm.text;
     widget.priority = stringToPriority(priorityForm.priority);
+    logger.i("Form saved succesfully");
     return true;
   }
 
@@ -65,9 +70,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       arguments: arguments,
     );
     if (arguments == null) {
-      debugPrint("NEW TASK");
+      logger.i("NEW TASK screen");
     } else {
-      debugPrint("EDIT TASK");
+      logger.i("EDIT TASK screen");
     }
     super.didChangeDependencies();
   }
@@ -106,22 +111,26 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     Icons.delete,
                     color: arguments == null
                         ? Theme.of(context).disabledColor
+                        // ignore: deprecated_member_use
                         : Theme.of(context).errorColor,
                   ),
                   TextButton(
                     onPressed: arguments == null
                         ? null
                         : () {
+                            logger.i("Delete task with id ${arguments!.id}");
                             Navigator.of(context)
                                 .pushReplacementNamed(MainScreen.routeName);
                             Provider.of<Tasks>(context, listen: false)
                                 .deleteTask(arguments!.id);
+                            logger.i("Change screen to MainScreen");
                           },
                     child: Text(
                       "Удалить",
                       style: TextStyle(
                           color: arguments == null
                               ? Theme.of(context).disabledColor
+                              // ignore: deprecated_member_use
                               : Theme.of(context).errorColor,
                           fontSize: 16,
                           height: 20 / 16),
@@ -142,6 +151,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               onPressed: () {
                 Navigator.of(context)
                     .pushReplacementNamed(MainScreen.routeName);
+                logger.i("Change screen to MainScreen");
               },
               icon: Icon(
                 Icons.close,
@@ -167,6 +177,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                           .updateTask(arguments!.id, temp);
                   Navigator.of(context)
                       .pushReplacementNamed(MainScreen.routeName);
+                  logger.i("Change screen to MainScreen");
                 }
               },
               child: Text(

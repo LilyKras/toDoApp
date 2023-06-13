@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:to_do_list/helpers/enums.dart';
 
 import '../../../models/task.dart';
 
 const List<String> list = <String>['Нет', 'Низкий', '‼ Высокий'];
+var logger = Logger();
 
 String priorityToString(Priority priority) {
   if (priority == Priority.hight) {
@@ -37,6 +39,8 @@ class _PriorityFormState extends State<PriorityForm> {
     widget.priority = widget.arguments == null
         ? list.first
         : priorityToString(widget.arguments!.priority);
+
+    logger.i("Initial value priority is $priority");
     super.didChangeDependencies();
   }
 
@@ -56,9 +60,12 @@ class _PriorityFormState extends State<PriorityForm> {
           ),
           DropdownButtonFormField<String>(
             dropdownColor: Theme.of(context).cardTheme.color,
-            onSaved: (newValue) => widget.priority = priority,
+            onSaved: (newValue) {
+              widget.priority = priority;
+            },
             decoration: InputDecoration(
                 border: InputBorder.none,
+                // ignore: deprecated_member_use
                 errorStyle: TextStyle(color: Theme.of(context).errorColor)),
             value: priority,
             onChanged: (String? value) {
@@ -66,6 +73,7 @@ class _PriorityFormState extends State<PriorityForm> {
               setState(() {
                 priority = value!;
               });
+              logger.i("Change priority to $priority");
             },
             items: list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -74,6 +82,7 @@ class _PriorityFormState extends State<PriorityForm> {
                     ? Text(
                         value,
                         style: TextStyle(
+                            // ignore: deprecated_member_use
                             color: Theme.of(context).errorColor,
                             fontSize: 14,
                             height: 20 / 14),

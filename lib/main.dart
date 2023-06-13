@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
             secondary: greenLight,
             inversePrimary: backLightElevated),
         iconTheme: const IconThemeData(color: grayLight),
+        // ignore: deprecated_member_use
         errorColor: redLight,
         shadowColor: supportLightOverlay,
       ),
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
             secondary: greenDark,
             inversePrimary: backDarkElevated),
         iconTheme: const IconThemeData(color: grayDark),
+        // ignore: deprecated_member_use
         errorColor: redDark,
         shadowColor: supportDarkOverlay,
       ),

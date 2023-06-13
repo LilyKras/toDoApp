@@ -12,6 +12,7 @@ class NewTaskButton extends StatelessWidget {
       shape: const CircleBorder(),
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(NewTaskScreen.routeName);
+        logger.i("Change screen to SaveScreen");
       },
       child: const Icon(
         Icons.add,

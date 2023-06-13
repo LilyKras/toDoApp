@@ -18,6 +18,7 @@
 1. IPhone
 
 > Главный экран
+
 ![https://ibb.co/6D4PwMS](https://i.ibb.co/KV9qhPg/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-54-16.png)
 
 ![https://ibb.co/jgN89K8](https://i.ibb.co/0h7npNn/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-54-41.png)
