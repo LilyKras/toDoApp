@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_list/screens/main/widgets/task_item.dart';
 
 import '../../../providers/task.dart';
-import '../../new_task/save_task_screen.dart';
+import '../../save_task/save_task_screen.dart';
 
 class TasksList extends StatelessWidget {
   const TasksList({super.key});
@@ -25,24 +25,34 @@ class TasksList extends StatelessWidget {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 58.0, bottom: 10, top: 10),
+                      const EdgeInsets.only(left: 20.0, bottom: 10, top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextButton(
-                        child: Text(
-                          "Новое",
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall!.color,
-                              fontSize: 16,
-                              height: 20 / 16),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(NewTaskScreen.routeName);
-                        },
+                      Icon(Icons.add, color:Theme.of(context).textTheme.bodySmall!.color, size: 28,),
+                      Padding(
+                        padding: const EdgeInsets.only(left:12.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              TextButton(
+                                child: Text(
+                                  "Новое",
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).textTheme.bodySmall!.color,
+                                      fontSize: 16,
+                                      height: 20 / 16),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(NewTaskScreen.routeName);
+                                },
+                              ),
+                            ],
+                          ),
                       ),
+                      
                     ],
                   ),
                 ),

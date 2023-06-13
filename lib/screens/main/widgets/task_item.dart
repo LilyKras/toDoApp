@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
-import '../../new_task/save_task_screen.dart';
+import '../../save_task/save_task_screen.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.task});

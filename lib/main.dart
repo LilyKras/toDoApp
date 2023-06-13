@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_list/helpers/constants.dart';
 import 'package:to_do_list/providers/task.dart';
 import 'package:to_do_list/screens/main/main_screen.dart';
-import 'package:to_do_list/screens/new_task/save_task_screen.dart';
+import 'package:to_do_list/screens/save_task/save_task_screen.dart';
 
 Future<void> main() async {
   runApp(

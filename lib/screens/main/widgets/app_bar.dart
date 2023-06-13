@@ -8,7 +8,7 @@ class TaskAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget title = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 28, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,11 +60,17 @@ class TaskAppBar extends StatelessWidget {
     );
 
     return SliverAppBar(
+      centerTitle: false,
+      titleSpacing: 0.0,
+      stretch: true,
+      snap:true,
+      floating:true,
       // ignore: deprecated_member_use
       backgroundColor: Theme.of(context).backgroundColor,
       pinned: true,
-      expandedHeight: 160,
+      expandedHeight: 130,
       flexibleSpace: FlexibleSpaceBar(
+        expandedTitleScale: 1,
         title: title,
         background: hideText,
       ),
