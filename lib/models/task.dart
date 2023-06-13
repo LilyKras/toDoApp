@@ -2,8 +2,7 @@ import 'package:to_do_list/helpers/enums.dart';
 
 class Task {
   Task(
-      {
-      required this.id,
+      {required this.id,
       required this.text,
       required this.priority,
       required this.hasDate,
@@ -16,7 +15,7 @@ class Task {
   final DateTime? date;
   bool doneStatus;
 
-  void changeStatus(){
+  void changeStatus() {
     doneStatus = !doneStatus;
   }
 }

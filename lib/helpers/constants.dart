@@ -13,7 +13,7 @@ const greenLight = Color(0xFF34C759);
 const blueLight = Color(0xFF007AFF);
 const grayLight = Color(0xFF8E8E93);
 const lgrayLight = Color(0xFFD1D1D6);
-const whiteLight = Color(0xFFFFFFFF);
+const white = Color(0xFFFFFFFF);
 
 const backLightPrimary = Color(0xFFF7F6F2);
 const backLightSecondary = Color(0xFFFFFFFF);
@@ -32,7 +32,6 @@ const greenDark = Color(0xFF32D74B);
 const blueDark = Color(0xFF0A84FF);
 const grayDark = Color(0xFF8E8E93);
 const lgrayDark = Color(0xFF48484A);
-const whiteDark = Color(0xFFFFFFFF);
 
 const backDarkPrimary = Color(0xFF161618);
 const backDarkSecondary = Color(0xFF252528);

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
-import '../../new_task/new_task_screen.dart';
+import '../../new_task/save_task_screen.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.task});
@@ -14,34 +14,49 @@ class TaskItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String emojies = "";
-    if (task.priority == Priority.hight){
-      emojies = "❗";
-    }
-    if (task.priority == Priority.low){
-      emojies = "⬇";
+    Icon emojies = Icon(
+      Icons.priority_high,
+      size: 16,
+      color: !task.doneStatus
+          ? Theme.of(context).errorColor
+          : Theme.of(context).textTheme.bodySmall!.color,
+    );
+    if (task.priority == Priority.low) {
+      emojies = Icon(
+        Icons.arrow_downward,
+        size: 16,
+        color: !task.doneStatus
+            ? Theme.of(context).iconTheme.color
+            : Theme.of(context).textTheme.bodySmall!.color,
+      );
     }
     return Dismissible(
       background: Container(
-        color: greenLight,
+        color: Theme.of(context).colorScheme.secondary,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.all(10),
-        child: const Icon(Icons.done, color: whiteLight),
+        child: const Icon(Icons.done, color: white),
       ),
       secondaryBackground: Container(
-        color: redLight,
+        color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.all(10),
-        child: const Icon(Icons.delete, color: whiteLight),
+        child: const Icon(Icons.delete, color: white),
       ),
       key: ValueKey(task),
-      onDismissed: (DismissDirection direction) {
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          return true;
+        } else {
+          Provider.of<Tasks>(context, listen: false).toggleDoneStatus(task.id);
+          debugPrint("Done/Undone");
+          return false;
+        }
+      },
+      onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
           debugPrint("Delete");
           Provider.of<Tasks>(context, listen: false).deleteTask(task.id);
-        } else {
-          debugPrint("Done/Undone");
-          Provider.of<Tasks>(context, listen: false).toggleDoneStatus(task.id);
         }
       },
       child: Consumer<Tasks>(
@@ -54,16 +69,16 @@ class TaskItem extends StatelessWidget {
               Checkbox(
                 value: task.doneStatus,
                 onChanged: (_) {
-                  if (task.doneStatus) ;
                   value.toggleDoneStatus(task.id);
                 },
                 fillColor: MaterialStateProperty.resolveWith(
                   (Set<MaterialState> states) {
                     if (states.contains(MaterialState.selected)) {
-                      return greenLight;
+                      return Theme.of(context).colorScheme.secondary;
                     } else {
-                      return task.priority == Priority.hight ? redLight: supportLightSeparator;
-                      
+                      return task.priority == Priority.hight
+                          ? Theme.of(context).errorColor
+                          : Theme.of(context).dividerTheme.color;
                     }
                   },
                 ),
@@ -78,29 +93,65 @@ class TaskItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              if (task.priority != Priority.none)
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: emojies,
+                                ),
+                              TextSpan(text: task.text)
+                            ],
+                            style: (task.doneStatus)
+                                ? TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color,
+                                    fontSize: 16,
+                                    height: 20 / 16,
+                                    decorationColor: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color)
+                                : TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .color,
+                                    fontSize: 16,
+                                    height: 20 / 16),
+                          ),
                           overflow: TextOverflow.ellipsis,
-                          emojies + task.text,
                           maxLines: 3,
-                           style: (task.doneStatus)? const TextStyle(decoration: TextDecoration.lineThrough, color: labelLightTertiary, fontSize: 16, height: 20/16, decorationColor: labelLightTertiary):const TextStyle(color: labelLightPrimary, fontSize: 16, height: 20/16),
                         ),
                       ),
                       if (task.hasDate)
-                        Text(DateFormat.yMMMMd("ru").format(task.date!), style: const TextStyle(color:labelLightTertiary, fontSize: 14, height: 20/14),),
+                        Text(
+                          DateFormat.yMMMMd("ru").format(task.date!),
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodySmall!.color,
+                              fontSize: 14,
+                              height: 20 / 14),
+                        ),
                     ],
                   ),
                 ),
               ),
               IconButton(
-                color: labelLightTertiary,
+                color: Theme.of(context).textTheme.bodySmall!.color,
                 icon: const Icon(
                   Icons.info_outline,
                   size: 25,
                 ),
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(NewTaskScreen.routeName);
+                  Navigator.of(context).pushReplacementNamed(
+                      NewTaskScreen.routeName,
+                      arguments: task);
                 },
               ),
             ],

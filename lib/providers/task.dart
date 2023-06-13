@@ -20,7 +20,7 @@ class Tasks with ChangeNotifier {
         priority: Priority.low,
         hasDate: false,
         doneStatus: true),
-  Task(
+    Task(
         id: "222",
         text:
             "HIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiigggggiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiigggggggggggiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiggggggggggiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
@@ -34,151 +34,8 @@ class Tasks with ChangeNotifier {
         priority: Priority.none,
         hasDate: false,
         doneStatus: true),
-    Task(
-        id: "4",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "5",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "6",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "7",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "8",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "1",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "9",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "1",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "10",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "11",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "12",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "13",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: false),
-    Task(
-        id: "14",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "15",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "1",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "16",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "17",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "18",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "19",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "20",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "21",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "22",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "23",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
-    Task(
-        id: "24",
-        text: "HI",
-        priority: Priority.hight,
-        hasDate: false,
-        doneStatus: true),
   ];
+  int _counter = 4;
 
   List<Task> get myTasks {
     if (!_showUndone) {
@@ -186,6 +43,10 @@ class Tasks with ChangeNotifier {
     } else {
       return _myTasks.where((taskItem) => !taskItem.doneStatus).toList();
     }
+  }
+
+  int get counter {
+    return _counter;
   }
 
   bool get showUndone {
@@ -203,6 +64,7 @@ class Tasks with ChangeNotifier {
 
   void toggleDoneStatus(String id) async {
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
+    !_myTasks[taskIndex].doneStatus ? _counter += 1 : _counter -= 1;
     _myTasks[taskIndex].doneStatus = !_myTasks[taskIndex].doneStatus;
     notifyListeners();
   }
@@ -225,6 +87,7 @@ class Tasks with ChangeNotifier {
   void deleteTask(String id) {
     final existingTaskIndex =
         _myTasks.indexWhere((element) => element.id == id);
+    if (_myTasks[existingTaskIndex].doneStatus) _counter -= 1;
     _myTasks.removeAt(existingTaskIndex);
     notifyListeners();
   }
