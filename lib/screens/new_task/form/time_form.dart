@@ -15,9 +15,18 @@ class TimeForm extends StatefulWidget {
 }
 
 class _TimeFormState extends State<TimeForm> {
-  bool hasDate = false ;
+  bool hasDate = false;
   DateTime? selectedDate;
   @override
+  void didChangeDependencies() {
+    hasDate = widget.arguments == null ? false : widget.arguments!.hasDate;
+    selectedDate = widget.arguments == null ? null : widget.arguments!.date;
+    widget.hasDate =
+        widget.arguments == null ? false : widget.arguments!.hasDate;
+    widget.selectedDate =
+        widget.arguments == null ? null : widget.arguments!.date;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

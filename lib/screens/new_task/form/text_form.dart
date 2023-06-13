@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/task.dart';
+
 // ignore: must_be_immutable
 class TextForm extends StatelessWidget {
-  TextForm({super.key});
+  TextForm({super.key, required this.arguments});
   String text = "";
+  Task? arguments;
 
   @override
   Widget build(BuildContext context) {
-    text = "";
+    text = arguments == null ? "" : arguments!.text;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
@@ -15,6 +18,7 @@ class TextForm extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            initialValue: text,
             onSaved: (newValue) => text = newValue!,
             validator: (value) {
               if (value == null || value == "") {

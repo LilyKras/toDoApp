@@ -35,8 +35,8 @@ class NewTaskScreen extends StatefulWidget {
 class _NewTaskScreenState extends State<NewTaskScreen> {
   Task? arguments;
   late TimeForm timeForm;
-  var textForm = TextForm();
-  var priorityForm = PriorityForm();
+  late TextForm textForm;
+  late PriorityForm priorityForm;
 
   bool saveItem() {
     widget.enteredDate = timeForm.selectedDate;
@@ -55,18 +55,21 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   void didChangeDependencies() {
     arguments = ModalRoute.of(context)!.settings.arguments as Task?;
+    textForm = TextForm(
+      arguments: arguments,
+    );
+    timeForm = TimeForm(
+      arguments: arguments,
+    );
+    priorityForm = PriorityForm(
+      arguments: arguments,
+    );
     if (arguments == null) {
       debugPrint("NEW TASK");
     } else {
       debugPrint("EDIT TASK");
     }
     super.didChangeDependencies();
-  }
-  @override
-  void initState() {
-    timeForm = TimeForm(arguments:arguments);
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -95,7 +98,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             timeForm,
             Divider(color: Theme.of(context).dividerTheme.color),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
               child: Row(
                 children: [
                   Icon(
@@ -148,13 +152,19 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               onPressed: () {
                 if (saveItem()) {
                   Task temp = Task(
-                      id: arguments == null? DateTime.now().toString():arguments!.id,
+                      id: arguments == null
+                          ? DateTime.now().toString()
+                          : arguments!.id,
                       text: widget.enteredTask,
                       priority: widget.priority,
                       hasDate: widget.hasDate,
-                      doneStatus: arguments == null? false :arguments!.doneStatus,
+                      doneStatus:
+                          arguments == null ? false : arguments!.doneStatus,
                       date: widget.enteredDate);
-                  arguments == null? Provider.of<Tasks>(context, listen: false).addTask(temp) : Provider.of<Tasks>(context, listen: false).updateTask(arguments!.id, temp);
+                  arguments == null
+                      ? Provider.of<Tasks>(context, listen: false).addTask(temp)
+                      : Provider.of<Tasks>(context, listen: false)
+                          .updateTask(arguments!.id, temp);
                   Navigator.of(context)
                       .pushReplacementNamed(MainScreen.routeName);
                 }

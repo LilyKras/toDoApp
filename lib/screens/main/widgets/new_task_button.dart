@@ -13,7 +13,6 @@ class NewTaskButton extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(NewTaskScreen.routeName);
       },
-      tooltip: 'Add new task',
       child: const Icon(
         Icons.add,
         color: white,

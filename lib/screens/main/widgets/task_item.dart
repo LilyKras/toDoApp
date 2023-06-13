@@ -18,6 +18,7 @@ class TaskItem extends StatelessWidget {
       Icons.priority_high,
       size: 16,
       color: !task.doneStatus
+          // ignore: deprecated_member_use
           ? Theme.of(context).errorColor
           : Theme.of(context).textTheme.bodySmall!.color,
     );
@@ -38,6 +39,7 @@ class TaskItem extends StatelessWidget {
         child: const Icon(Icons.done, color: white),
       ),
       secondaryBackground: Container(
+        // ignore: deprecated_member_use
         color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.all(10),
@@ -52,6 +54,10 @@ class TaskItem extends StatelessWidget {
           debugPrint("Done/Undone");
           return false;
         }
+      },
+      dismissThresholds: const {
+        DismissDirection.endToStart: 0.2,
+        DismissDirection.startToEnd: 0.2
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {

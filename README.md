@@ -1,16 +1,15 @@
-# to_do_list
+# To Do list
 
-A new Flutter project.
+## Приложение TODO лист by Лилия Красногорова
 
-## Getting Started
+### В приложении реализованы фичи:
+#### 1. Список задач с возмодностью скрыть выполненные (кнопка с глазом). Если задача слишком длинная, то сокрашается до 3-х строк, а дальше ...
+#### 2. Помимо основного экрана со списком задая так же присутствует экран редактирования задачи, в котором можно создать новую/ удалить имеющуюся/ отредактировать имеющуюся задачу
+#### 3. Каждая из задач может быть удалена свайпом влево (20%) или с помощью экрана ркдактирования 
+#### 4. Каждая из задач может быть выполнена свайпом вправо (20%) или с помощью чекбокса 
+#### 5. С помощью кнопки внизу (Floating Button) и кнопки "Новый" можно перейти на второй экран в режиме создания новой такси
+#### 6. С нажатием на иконку INFO можно перейти на второй экран в режиме создания новой такси, где можно будет отредактировать дату, приоритетность и текс выбранной такси, а так же удалить ее
+#### 7. На основном экранк присутствует счетчик выполненных тасков (считает сколько задач выполнено, не считает удаленные выполненные задачу)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Ссылка на загрузку apk:
+- [Тык](https://drive.google.com/uc?export=download&id=1bI4WR3Bnti8xx_3Z3HVpe4q8ojyqvFc1)
