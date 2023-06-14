@@ -24,17 +24,28 @@
 
 > Главный экран
 
-![https://ibb.co/6D4PwMS](https://i.ibb.co/KV9qhPg/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-54-16.png) 
-![https://ibb.co/jgN89K8](https://i.ibb.co/0h7npNn/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-54-41.png) 
-![https://ibb.co/cJPGYXP](https://i.ibb.co/JnNf3FN/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-54-55.png)
-Темная тема такая же, но темная
+Светлая тема
+![https://ibb.co/28Yx8mQ](https://i.ibb.co/Gs3ysBL/IMG-5501.png)
+
+Темная тема
+![https://ibb.co/8DYXPCp](https://i.ibb.co/GvHFC6L/IMG-5505.png)
+
 
 > Экран сохранения в разных режимах
 
-![https://ibb.co/9Hjtr99](https://i.ibb.co/3mHzCyy/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-55-09.png)
+Светлая тема
+![https://ibb.co/T4qjCvN](https://i.ibb.co/F5qZPxd/IMG-5502.png)
+![https://ibb.co/2FszWGr](https://i.ibb.co/WHPrGmX/IMG-5503.png)
 
-![https://ibb.co/VDdWbFb](https://i.ibb.co/7VHJB3B/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-55-24.png)
-
-![https://ibb.co/5vNf1GM](https://i.ibb.co/2PDfFWn/Simulator-Screenshot-i-Phone-14-2023-06-13-at-19-55-35.png)
+Темная тема
+![https://ibb.co/ZLH8zBk](https://i.ibb.co/Bz4Z2yS/IMG-5506.png)
+![https://ibb.co/1vSNjGG](https://i.ibb.co/0DwLvyy/IMG-5504.png)
 
 2. Android
+![]()
+![]()
+![]()
+
+
+
+
