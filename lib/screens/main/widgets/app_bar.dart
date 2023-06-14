@@ -13,16 +13,22 @@ class TaskAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget title = Padding(
       padding: const EdgeInsets.only(left: 28, right: 20),
-      child: Row(
+      child: Flex(
+        direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            "Мои дела",
-            style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge!.color,
-                fontSize: 20,
-                height: 32 / 20),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: Text(
+              textAlign: TextAlign.start,
+              "Мои дела",
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
+                  fontSize: 24,
+                  height: 32 / 24),
+            ),
           ),
           Consumer<Tasks>(
             builder: (context, value, _) => IconButton(
@@ -65,8 +71,6 @@ class TaskAppBar extends StatelessWidget {
     );
 
     return SliverAppBar(
-      centerTitle: false,
-      titleSpacing: 0.0,
       stretch: true,
       snap: true,
       floating: true,
@@ -75,9 +79,11 @@ class TaskAppBar extends StatelessWidget {
       pinned: true,
       expandedHeight: 130,
       flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.only(bottom: 10),
         expandedTitleScale: 1,
         title: title,
         background: hideText,
+        centerTitle: false,
       ),
     );
   }
