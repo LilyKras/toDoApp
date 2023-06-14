@@ -27,18 +27,21 @@ class TasksList extends StatelessWidget {
                   (val) => TaskItem(task: val),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                  padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.add, color: Theme.of(context).textTheme.bodySmall!.color,size: 28,),
-                      onPressed: () {
-                                Navigator.of(context).pushReplacementNamed(
-                                    NewTaskScreen.routeName);
-                                logger.i("Change screen to SaveScreen");
-                              },  
+                        icon: Icon(
+                          Icons.add,
+                          color: Theme.of(context).textTheme.bodySmall!.color,
+                          size: 28,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(NewTaskScreen.routeName);
+                          logger.i("Change screen to SaveScreen");
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 2.0),
