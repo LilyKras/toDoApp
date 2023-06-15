@@ -143,6 +143,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         ),
       ),
       appBar: AppBar(
+        scrolledUnderElevation: 4,
+        elevation: 0,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
