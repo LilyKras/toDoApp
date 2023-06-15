@@ -59,6 +59,7 @@ class _PriorityFormState extends State<PriorityForm> {
                 height: 20 / 16),
           ),
           DropdownButtonFormField<String>(
+            icon: const Icon(null),
             dropdownColor: Theme.of(context).cardTheme.color,
             onSaved: (newValue) {
               widget.priority = priority;
