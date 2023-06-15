@@ -42,6 +42,7 @@
 ![https://ibb.co/1vSNjGG](https://i.ibb.co/0DwLvyy/IMG-5504.png)
 
 2. Android
-![https://ibb.co/L5NN00Y](https://i.ibb.co/nCPPww6/IMG-5509.jpg)
+
+![https://ibb.co/s5qR8hv](https://i.ibb.co/rbH0DgG/IMG-5525.jpg)
 ![https://ibb.co/DK4w2D6](https://i.ibb.co/WKnBJWd/IMG-5510.jpg)
 ![https://ibb.co/tmD1B5N](https://i.ibb.co/f1HTM7K/IMG-5511.jpg)
