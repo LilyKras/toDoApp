@@ -61,7 +61,7 @@ class _PriorityFormState extends State<PriorityForm> {
           SizedBox(
             width: 100,
             child: DropdownButtonFormField<String>(
-              icon: const Icon(null),
+              // icon: const Icon(null), не интуитивно, что можно выбирать приоритеты по клику на слово
               dropdownColor: Theme.of(context).cardTheme.color,
               onSaved: (newValue) {
                 widget.priority = priority;
