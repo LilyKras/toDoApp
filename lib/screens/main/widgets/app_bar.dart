@@ -26,8 +26,8 @@ class TaskAppBar extends StatelessWidget {
               "Мои дела",
               style: TextStyle(
                   color: Theme.of(context).textTheme.bodyLarge!.color,
-                  fontSize: 24,
-                  height: 32 / 24),
+                  fontSize: 20,
+                  height: 32 / 20),
             ),
           ),
           Consumer<Tasks>(
@@ -52,7 +52,7 @@ class TaskAppBar extends StatelessWidget {
       ),
     );
     Widget hideText = Padding(
-      padding: const EdgeInsets.only(left: 28),
+      padding: const EdgeInsets.only(left: 47),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class TaskAppBar extends StatelessWidget {
       expandedHeight: 130,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 10),
-        expandedTitleScale: 1,
+        expandedTitleScale: 32 / 20,
         title: title,
         background: hideText,
         centerTitle: false,
