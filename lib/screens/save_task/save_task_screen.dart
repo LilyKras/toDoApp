@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_list/screens/main/main_screen.dart';
 
 import '../../helpers/enums.dart';
 import '../../models/task.dart';
@@ -25,7 +24,7 @@ Priority stringToPriority(String priority) {
 // ignore: must_be_immutable
 class NewTaskScreen extends StatefulWidget {
   NewTaskScreen({super.key});
-  String enteredTask = "";
+  String enteredTask = '';
   DateTime? enteredDate;
   bool hasDate = false;
   Priority priority = Priority.none;
@@ -51,7 +50,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     _formKey.currentState!.save();
     widget.enteredTask = textForm.text;
     widget.priority = stringToPriority(priorityForm.priority);
-    logger.i("Form saved succesfully");
+    logger.i('Form saved succesfully');
     return true;
   }
 
@@ -70,9 +69,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       arguments: arguments,
     );
     if (arguments == null) {
-      logger.i("NEW TASK screen");
+      logger.i('NEW TASK screen');
     } else {
-      logger.i("EDIT TASK screen");
+      logger.i('EDIT TASK screen');
     }
     super.didChangeDependencies();
   }
@@ -80,7 +79,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     if (arguments == null) {
-      widget.enteredTask = "";
+      widget.enteredTask = '';
       widget.enteredDate = null;
       widget.hasDate = false;
       widget.priority = Priority.none;
@@ -104,90 +103,93 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             Divider(color: Theme.of(context).dividerTheme.color),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.delete,
-                    color: arguments == null
-                        ? Theme.of(context).disabledColor
-                        // ignore: deprecated_member_use
-                        : Theme.of(context).errorColor,
-                  ),
-                  TextButton(
-                    onPressed: arguments == null
-                        ? null
-                        : () {
-                            logger.i("Delete task with id ${arguments!.id}");
-                            Navigator.of(context)
-                                .pushReplacementNamed(MainScreen.routeName);
-                            Provider.of<Tasks>(context, listen: false)
-                                .deleteTask(arguments!.id);
-                            logger.i("Change screen to MainScreen");
-                          },
-                    child: Text(
-                      "Удалить",
-                      style: TextStyle(
-                          color: arguments == null
-                              ? Theme.of(context).disabledColor
-                              // ignore: deprecated_member_use
-                              : Theme.of(context).errorColor,
-                          fontSize: 16,
-                          height: 20 / 16),
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
+              child: InkWell(
+                onTap: arguments == null
+                    ? null
+                    : () {
+                        logger.i('Delete task with id ${arguments!.id}');
+                        Navigator.of(context).pop();
+                        Provider.of<Tasks>(context, listen: false)
+                            .deleteTask(arguments!.id);
+                        logger.i('Change screen to MainScreen');
+                      },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: arguments == null
+                          ? Theme.of(context).disabledColor
+                          // ignore: deprecated_member_use
+                          : Theme.of(context).errorColor,
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Удалить',
+                      style: TextStyle(
+                        color: arguments == null
+                            ? Theme.of(context).disabledColor
+                            // ignore: deprecated_member_use
+                            : Theme.of(context).errorColor,
+                        fontSize: 16,
+                        height: 20 / 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           ],
         ),
       ),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            logger.i('Change screen to MainScreen');
+          },
+          icon: Icon(
+            Icons.close,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+          ),
+        ),
         scrolledUnderElevation: 4,
         elevation: 0,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(MainScreen.routeName);
-                logger.i("Change screen to MainScreen");
-              },
-              icon: Icon(
-                Icons.close,
-                color: Theme.of(context).textTheme.bodyLarge!.color,
-              ),
-            ),
             TextButton(
               onPressed: () {
                 if (saveItem()) {
                   Task temp = Task(
-                      id: arguments == null
-                          ? DateTime.now().toString()
-                          : arguments!.id,
-                      text: widget.enteredTask,
-                      priority: widget.priority,
-                      hasDate: widget.hasDate,
-                      doneStatus:
-                          arguments == null ? false : arguments!.doneStatus,
-                      date: widget.enteredDate);
+                    id: arguments == null
+                        ? DateTime.now().toString()
+                        : arguments!.id,
+                    text: widget.enteredTask,
+                    priority: widget.priority,
+                    hasDate: widget.hasDate,
+                    doneStatus:
+                        arguments == null ? false : arguments!.doneStatus,
+                    date: widget.enteredDate,
+                  );
                   arguments == null
                       ? Provider.of<Tasks>(context, listen: false).addTask(temp)
                       : Provider.of<Tasks>(context, listen: false)
                           .updateTask(arguments!.id, temp);
-                  Navigator.of(context)
-                      .pushReplacementNamed(MainScreen.routeName);
-                  logger.i("Change screen to MainScreen");
+                  Navigator.of(context).pop();
+                  logger.i('Change screen to MainScreen');
                 }
               },
               child: Text(
-                "Сохранить".toUpperCase(),
+                'Сохранить'.toUpperCase(),
                 style: TextStyle(
-                    fontSize: 14,
-                    height: 24 / 14,
-                    color: Theme.of(context).colorScheme.primary),
+                  fontSize: 14,
+                  height: 24 / 14,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
           ],

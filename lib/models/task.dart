@@ -7,7 +7,7 @@ class Task {
       required this.priority,
       required this.hasDate,
       this.date,
-      required this.doneStatus});
+      required this.doneStatus,});
   final String id;
   final String text;
   final Priority priority;

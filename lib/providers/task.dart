@@ -43,7 +43,7 @@ class Tasks with ChangeNotifier {
 
   void addTask(Task task) {
     _myTasks.add(task);
-    logger.i("Add new task with id: ${task.id}");
+    logger.i('Add new task with id: ${task.id}');
     notifyListeners();
   }
 
@@ -51,10 +51,10 @@ class Tasks with ChangeNotifier {
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
     if (taskIndex >= 0) {
       _myTasks[taskIndex] = newTask;
-      logger.i("Update new task with id: $id");
+      logger.i('Update new task with id: $id');
       notifyListeners();
     } else {
-      logger.w("There is no task with this id: $id");
+      logger.w('There is no task with this id: $id');
     }
   }
 
@@ -63,14 +63,7 @@ class Tasks with ChangeNotifier {
         _myTasks.indexWhere((element) => element.id == id);
     if (_myTasks[existingTaskIndex].doneStatus) _counter -= 1;
     _myTasks.removeAt(existingTaskIndex);
-    logger.i("Remove task with id: $id");
+    logger.i('Remove task with id: $id');
     notifyListeners();
-  }
-
-  void addBackTask(String id) {
-    final existingTaskIndex =
-        _myTasks.indexWhere((element) => element.id == id);
-    Task? existingTask = _myTasks[existingTaskIndex];
-    _myTasks.insert(existingTaskIndex, existingTask);
   }
 }

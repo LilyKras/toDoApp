@@ -23,11 +23,12 @@ class TaskAppBar extends StatelessWidget {
             fit: FlexFit.tight,
             child: Text(
               textAlign: TextAlign.start,
-              "Мои дела",
+              'Мои дела',
               style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge!.color,
-                  fontSize: 20,
-                  height: 32 / 20),
+                color: Theme.of(context).textTheme.bodyLarge!.color,
+                fontSize: 20,
+                height: 32 / 20,
+              ),
             ),
           ),
           Consumer<Tasks>(
@@ -35,7 +36,7 @@ class TaskAppBar extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8),
               onPressed: () {
                 value.toggleShowDone();
-                logger.i("Toggle showDone mode");
+                logger.i('Toggle showDone mode');
               },
               icon: value.showUndone
                   ? Icon(
@@ -59,11 +60,12 @@ class TaskAppBar extends StatelessWidget {
         children: [
           Consumer<Tasks>(
             builder: (context, tasks, child) => Text(
-              "Выполнено - ${tasks.counter}",
+              'Выполнено - ${tasks.counter}',
               style: TextStyle(
-                  color: Theme.of(context).textTheme.bodySmall!.color,
-                  fontSize: 16,
-                  height: 20 / 16),
+                color: Theme.of(context).textTheme.bodySmall!.color,
+                fontSize: 16,
+                height: 20 / 16,
+              ),
             ),
           )
         ],
@@ -71,9 +73,6 @@ class TaskAppBar extends StatelessWidget {
     );
 
     return SliverAppBar(
-      stretch: true,
-      snap: true,
-      floating: true,
       // ignore: deprecated_member_use
       backgroundColor: Theme.of(context).backgroundColor,
       pinned: true,

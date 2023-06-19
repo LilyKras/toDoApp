@@ -11,14 +11,15 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // ignore: deprecated_member_use
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: const CustomScrollView(
-          slivers: [
-            TaskAppBar(),
-            TasksList(),
-          ],
-        ),
-        floatingActionButton: const NewTaskButton());
+      // ignore: deprecated_member_use
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: const CustomScrollView(
+        slivers: [
+          TaskAppBar(),
+          TasksList(),
+        ],
+      ),
+      floatingActionButton: const NewTaskButton(),
+    );
   }
 }

@@ -40,7 +40,7 @@ class _PriorityFormState extends State<PriorityForm> {
         ? list.first
         : priorityToString(widget.arguments!.priority);
 
-    logger.i("Initial value priority is $priority");
+    logger.i('Initial value priority is $priority');
     super.didChangeDependencies();
   }
 
@@ -52,11 +52,12 @@ class _PriorityFormState extends State<PriorityForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Важность",
+            'Важность',
             style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge!.color,
-                fontSize: 16,
-                height: 20 / 16),
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+              fontSize: 16,
+              height: 20 / 16,
+            ),
           ),
           SizedBox(
             width: 100,
@@ -67,16 +68,19 @@ class _PriorityFormState extends State<PriorityForm> {
                 widget.priority = priority;
               },
               decoration: InputDecoration(
-                  border: InputBorder.none,
+                border: InputBorder.none,
+                errorStyle: TextStyle(
                   // ignore: deprecated_member_use
-                  errorStyle: TextStyle(color: Theme.of(context).errorColor)),
+                  color: Theme.of(context).errorColor,
+                ),
+              ),
               value: priority,
               onChanged: (String? value) {
                 // This is called when the user selects an item.
                 setState(() {
                   priority = value!;
                 });
-                logger.i("Change priority to $priority");
+                logger.i('Change priority to $priority');
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -85,18 +89,19 @@ class _PriorityFormState extends State<PriorityForm> {
                       ? Text(
                           value,
                           style: TextStyle(
-                              // ignore: deprecated_member_use
-                              color: Theme.of(context).errorColor,
-                              fontSize: 14,
-                              height: 20 / 14),
+                            // ignore: deprecated_member_use
+                            color: Theme.of(context).errorColor,
+                            fontSize: 14,
+                            height: 20 / 14,
+                          ),
                         )
                       : Text(
                           value,
                           style: TextStyle(
-                              fontSize: 14,
-                              height: 20 / 14,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge!.color),
+                            fontSize: 14,
+                            height: 20 / 14,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
                         ),
                 );
               }).toList(),

@@ -11,8 +11,8 @@ class NewTaskButton extends StatelessWidget {
     return FloatingActionButton(
       shape: const CircleBorder(),
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(NewTaskScreen.routeName);
-        logger.i("Change screen to SaveScreen");
+        Navigator.of(context).pushNamed(NewTaskScreen.routeName);
+        logger.i('Change screen to SaveScreen');
       },
       child: const Icon(
         Icons.add,

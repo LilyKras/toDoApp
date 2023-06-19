@@ -13,6 +13,41 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var addNewTask = Padding(
+      padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 10),
+      child: InkWell(
+        onTap: () => Navigator.of(context).pushNamed(NewTaskScreen.routeName),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).textTheme.bodySmall!.color,
+                size: 28,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Новое',
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall!.color,
+                      fontSize: 16,
+                      height: 20 / 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -26,51 +61,7 @@ class TasksList extends StatelessWidget {
                 ...tasks.myTasks.map(
                   (val) => TaskItem(task: val),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.add,
-                          color: Theme.of(context).textTheme.bodySmall!.color,
-                          size: 28,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(NewTaskScreen.routeName);
-                          logger.i("Change screen to SaveScreen");
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TextButton(
-                              child: Text(
-                                "Новое",
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .color,
-                                    fontSize: 16,
-                                    height: 20 / 16),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pushReplacementNamed(
-                                    NewTaskScreen.routeName);
-                                logger.i("Change screen to SaveScreen");
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                addNewTask
               ],
             ),
           ),

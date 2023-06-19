@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             bodyLarge: const TextStyle(color: labelLightPrimary),
             bodySmall: const TextStyle(
               color: labelLightTertiary,
-            )),
+            ),),
         cardTheme: const CardTheme().copyWith(color: backLightSecondary),
         appBarTheme:
             const AppBarTheme().copyWith(backgroundColor: backLightPrimary),
