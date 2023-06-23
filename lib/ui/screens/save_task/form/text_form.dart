@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../../helpers/logger.dart';
+import '../../../../models/task.dart';
 
-import '../../../models/task.dart';
-
-var logger = Logger();
-
-// ignore: must_be_immutable
 class TextForm extends StatelessWidget {
   TextForm({super.key, required this.arguments});
   String text = '';
@@ -14,7 +11,7 @@ class TextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     text = arguments == null ? '' : arguments!.text;
-    logger.i('Initial text is $text');
+    log('info', 'Initial text is $text');
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
@@ -26,10 +23,10 @@ class TextForm extends StatelessWidget {
             onSaved: (newValue) => text = newValue!,
             validator: (value) {
               if (value == null || value == '') {
-                logger.w('No task text');
-                return 'Вы не ввели задачу';
+                log('warning', 'No task text');
+                return AppLocalizations.of(context)!.noTask;
               }
-              logger.i('Valid text form');
+              log('info', 'Valid text form');
               return null;
             },
             style: TextStyle(
@@ -40,7 +37,7 @@ class TextForm extends StatelessWidget {
             minLines: 3,
             maxLines: 25,
             decoration: InputDecoration(
-              hintText: 'Что надо сделать…',
+              hintText: AppLocalizations.of(context)!.smthShouldBeDone,
               border: InputBorder.none,
               hintStyle: TextStyle(
                 color: Theme.of(context).textTheme.bodySmall!.color,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:to_do_list/helpers/enums.dart';
+import 'package:to_do_list/helpers/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../models/task.dart';
+import '../../../../models/task.dart';
 
 const List<String> list = <String>['Нет', 'Низкий', '‼ Высокий'];
-var logger = Logger();
 
 String priorityToString(Priority priority) {
   if (priority == Priority.hight) {
@@ -17,7 +17,6 @@ String priorityToString(Priority priority) {
   return 'Нет';
 }
 
-// ignore: must_be_immutable
 class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
@@ -40,7 +39,7 @@ class _PriorityFormState extends State<PriorityForm> {
         ? list.first
         : priorityToString(widget.arguments!.priority);
 
-    logger.i('Initial value priority is $priority');
+    log('info', 'Initial value priority is $priority');
     super.didChangeDependencies();
   }
 
@@ -52,7 +51,7 @@ class _PriorityFormState extends State<PriorityForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Важность',
+            AppLocalizations.of(context)!.relevance,
             style: TextStyle(
               color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: 16,
@@ -70,8 +69,7 @@ class _PriorityFormState extends State<PriorityForm> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorStyle: TextStyle(
-                  // ignore: deprecated_member_use
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                 ),
               ),
               value: priority,
@@ -80,30 +78,43 @@ class _PriorityFormState extends State<PriorityForm> {
                 setState(() {
                   priority = value!;
                 });
-                logger.i('Change priority to $priority');
+                log('info', 'Change priority to $priority');
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: value == '‼ Высокий'
-                      ? Text(
-                          value,
-                          style: TextStyle(
-                            // ignore: deprecated_member_use
-                            color: Theme.of(context).errorColor,
-                            fontSize: 14,
-                            height: 20 / 14,
-                          ),
-                        )
-                      : Text(
-                          value,
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 20 / 14,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                );
+                    value: value,
+                    child: value == '‼ Высокий'
+                        ? Text(
+                            '!! ${AppLocalizations.of(context)!.high}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                              fontSize: 14,
+                              height: 20 / 14,
+                            ),
+                          )
+                        : value == 'Нет'
+                            ? Text(
+                                AppLocalizations.of(context)!.none,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  height: 20 / 14,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .color,
+                                ),
+                              )
+                            : Text(
+                                AppLocalizations.of(context)!.low,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  height: 20 / 14,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .color,
+                                ),
+                              ));
               }).toList(),
             ),
           )

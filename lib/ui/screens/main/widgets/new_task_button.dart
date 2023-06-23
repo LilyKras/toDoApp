@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../helpers/constants.dart';
+import '../../../../helpers/constants.dart';
+import '../../../../helpers/logger.dart';
 import '../../save_task/save_task_screen.dart';
 
 class NewTaskButton extends StatelessWidget {
@@ -12,7 +13,7 @@ class NewTaskButton extends StatelessWidget {
       shape: const CircleBorder(),
       onPressed: () {
         Navigator.of(context).pushNamed(NewTaskScreen.routeName);
-        logger.i('Change screen to SaveScreen');
+        log('info', 'Change screen to SaveScreen');
       },
       child: const Icon(
         Icons.add,

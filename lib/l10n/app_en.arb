@@ -1,0 +1,16 @@
+{
+    "myBusiness": "My tasks",
+    "done": "Done",
+    "newTask": "New",
+    "smthShouldBeDone": "Something should be done...",
+    "relevance": "Relevance",
+    "none": "None",
+    "low": "Low",
+    "high": "High",
+    "makeTo": "Make to",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "CANCEL",
+    "ok": "OK",
+    "noTask":"No task's text"
+}

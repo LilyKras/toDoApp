@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 
-import '../../../models/task.dart';
+import '../../../../helpers/logger.dart';
+import '../../../../models/task.dart';
 
-var logger = Logger();
-
-// ignore: must_be_immutable
 class TimeForm extends StatefulWidget {
   TimeForm({super.key, this.arguments});
   bool hasDate = false;
@@ -21,6 +19,7 @@ class TimeForm extends StatefulWidget {
 class _TimeFormState extends State<TimeForm> {
   bool hasDate = false;
   DateTime? selectedDate;
+
   @override
   void didChangeDependencies() {
     hasDate = widget.arguments == null ? false : widget.arguments!.hasDate;
@@ -29,7 +28,8 @@ class _TimeFormState extends State<TimeForm> {
         widget.arguments == null ? false : widget.arguments!.hasDate;
     widget.selectedDate =
         widget.arguments == null ? null : widget.arguments!.date;
-    logger.i(
+    log(
+      'info',
       'Initial value hasDate is $hasDate, Initial value date is $selectedDate',
     );
     super.didChangeDependencies();
@@ -46,7 +46,7 @@ class _TimeFormState extends State<TimeForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Сделать до',
+                AppLocalizations.of(context)!.makeTo,
                 style: TextStyle(
                   color: Theme.of(context).textTheme.bodyLarge!.color,
                   fontSize: 16,
@@ -55,7 +55,7 @@ class _TimeFormState extends State<TimeForm> {
               ),
               if (hasDate && selectedDate != null)
                 Text(
-                  DateFormat('d MMMM y', 'ru').format(selectedDate!),
+                  DateFormat('d MMMM y').format(selectedDate!),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 14,
@@ -70,15 +70,14 @@ class _TimeFormState extends State<TimeForm> {
             inactiveTrackColor: Theme.of(context).shadowColor,
             onChanged: (bool val) async {
               if (!hasDate) {
-                logger.i('Open showDatePicker');
+                log('info', 'Open showDatePicker');
                 selectedDate = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2023),
                   lastDate: DateTime(2123),
-                  confirmText: 'ГОТОВО',
-                  cancelText: 'ОТМЕНА',
-                  locale: const Locale('ru'),
+                  confirmText: AppLocalizations.of(context)!.ok,
+                  cancelText: AppLocalizations.of(context)!.cancel,
                 );
               }
               if (hasDate || selectedDate != null) {
@@ -87,11 +86,11 @@ class _TimeFormState extends State<TimeForm> {
                 });
               }
               if (selectedDate == null) {
-                logger.w('No date selected');
+                log('warning', 'No date selected');
               }
               widget.hasDate = hasDate;
               widget.selectedDate = selectedDate;
-              logger.i('New date = $selectedDate');
+              log('info', 'New date = $selectedDate');
             },
             value: hasDate,
           ),

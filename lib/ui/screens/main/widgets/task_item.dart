@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/helpers/constants.dart';
 import 'package:to_do_list/providers/task.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-import '../../../helpers/enums.dart';
-import '../../../models/task.dart';
+import '../../../../helpers/enums.dart';
+import '../../../../helpers/logger.dart';
+import '../../../../models/task.dart';
 import '../../save_task/save_task_screen.dart';
-
-var logger = Logger();
 
 class TaskItem extends StatefulWidget {
   const TaskItem({super.key, required this.task});
@@ -36,8 +35,7 @@ class _TaskItemState extends State<TaskItem> {
       Icons.priority_high,
       size: 16,
       color: !widget.task.doneStatus
-          // ignore: deprecated_member_use
-          ? Theme.of(context).errorColor
+          ? Theme.of(context).colorScheme.error
           : Theme.of(context).textTheme.bodySmall!.color,
     );
     if (widget.task.priority == Priority.low) {
@@ -58,26 +56,47 @@ class _TaskItemState extends State<TaskItem> {
         },
         background: Container(
           color: Theme.of(context).colorScheme.secondary,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.done, color: white),
+          child: Viewport(
+            axisDirection: AxisDirection.right,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Icon(Icons.done, color: white),
+                ),
+              )
+            ],
+            offset: ViewportOffset.fixed(
+              dismissProgress * -(MediaQuery.of(context).size.width - 40) + 40,
+            ),
+          ),
         ),
         secondaryBackground: Container(
-          // ignore: deprecated_member_use
-          color: Theme.of(context).errorColor,
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.delete, color: white),
+          color: Theme.of(context).colorScheme.error,
+          child: Viewport(
+            axisDirection: AxisDirection.left,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Icon(Icons.delete, color: white),
+                ),
+              )
+            ],
+            offset: ViewportOffset.fixed(
+              dismissProgress * -(MediaQuery.of(context).size.width - 40) + 40,
+            ),
+          ),
         ),
         key: ValueKey(widget.task),
         confirmDismiss: (direction) async {
           if (direction == DismissDirection.endToStart) {
             return true;
           } else {
-            logger.i('Swipe mode is Done/Undone');
+            log('info', 'Swipe mode is Done/Undone');
             Provider.of<Tasks>(context, listen: false)
                 .toggleDoneStatus(widget.task.id);
-            logger.i('Toggle showDone mode');
+
             return false;
           }
         },
@@ -87,7 +106,7 @@ class _TaskItemState extends State<TaskItem> {
         },
         onDismissed: (direction) {
           if (direction == DismissDirection.endToStart) {
-            logger.i('Swipe mode is Delete');
+            log('info', 'Swipe mode is Delete');
             Provider.of<Tasks>(context, listen: false)
                 .deleteTask(widget.task.id);
           }
@@ -103,7 +122,6 @@ class _TaskItemState extends State<TaskItem> {
                   value: widget.task.doneStatus,
                   onChanged: (_) {
                     value.toggleDoneStatus(widget.task.id);
-                    logger.i('Toggle showDone mode');
                   },
                   fillColor: MaterialStateProperty.resolveWith(
                     (Set<MaterialState> states) {
@@ -111,8 +129,7 @@ class _TaskItemState extends State<TaskItem> {
                         return Theme.of(context).colorScheme.secondary;
                       } else {
                         return widget.task.priority == Priority.hight
-                            // ignore: deprecated_member_use
-                            ? Theme.of(context).errorColor
+                            ? Theme.of(context).colorScheme.error
                             : Theme.of(context).dividerTheme.color;
                       }
                     },
@@ -168,8 +185,7 @@ class _TaskItemState extends State<TaskItem> {
                         ),
                         if (widget.task.hasDate)
                           Text(
-                            DateFormat('d MMMM y', 'ru')
-                                .format(widget.task.date!),
+                            DateFormat('d MMMM y').format(widget.task.date!),
                             style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodySmall!.color,
@@ -192,7 +208,8 @@ class _TaskItemState extends State<TaskItem> {
                       NewTaskScreen.routeName,
                       arguments: widget.task,
                     );
-                    logger.i(
+                    log(
+                      'info',
                       'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
                     );
                   },

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-
 import 'package:provider/provider.dart';
-import '../../../providers/task.dart';
-
-var logger = Logger();
+import '../../../../providers/task.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskAppBar extends StatelessWidget {
   const TaskAppBar({super.key});
@@ -23,7 +20,7 @@ class TaskAppBar extends StatelessWidget {
             fit: FlexFit.tight,
             child: Text(
               textAlign: TextAlign.start,
-              'Мои дела',
+              AppLocalizations.of(context)!.myBusiness,
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyLarge!.color,
                 fontSize: 20,
@@ -36,7 +33,6 @@ class TaskAppBar extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8),
               onPressed: () {
                 value.toggleShowDone();
-                logger.i('Toggle showDone mode');
               },
               icon: value.showUndone
                   ? Icon(
@@ -60,7 +56,7 @@ class TaskAppBar extends StatelessWidget {
         children: [
           Consumer<Tasks>(
             builder: (context, tasks, child) => Text(
-              'Выполнено - ${tasks.counter}',
+              '${AppLocalizations.of(context)!.done} - ${tasks.counter}',
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodySmall!.color,
                 fontSize: 16,
@@ -73,8 +69,7 @@ class TaskAppBar extends StatelessWidget {
     );
 
     return SliverAppBar(
-      // ignore: deprecated_member_use
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       pinned: true,
       expandedHeight: 130,
       flexibleSpace: FlexibleSpaceBar(

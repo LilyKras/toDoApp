@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_list/screens/main/widgets/task_item.dart';
+import 'package:to_do_list/ui/screens/main/widgets/task_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../providers/task.dart';
+import '../../../../providers/task.dart';
 import '../../save_task/save_task_screen.dart';
-
-var logger = Logger();
 
 class TasksList extends StatelessWidget {
   const TasksList({super.key});
@@ -34,7 +32,7 @@ class TasksList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'Новое',
+                    AppLocalizations.of(context)!.newTask,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.bodySmall!.color,
                       fontSize: 16,
@@ -55,14 +53,19 @@ class TasksList extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: Theme.of(context).cardTheme.color,
           child: Consumer<Tasks>(
-            builder: (ctx, tasks, _) => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ...tasks.myTasks.map(
-                  (val) => TaskItem(task: val),
-                ),
-                addNewTask
-              ],
+            builder: (ctx, tasks, _) => Padding(
+              padding: tasks.myTasks.isEmpty
+                  ? const EdgeInsets.only()
+                  : const EdgeInsets.only(top: 8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ...tasks.myTasks.map(
+                    (val) => TaskItem(task: val),
+                  ),
+                  addNewTask
+                ],
+              ),
             ),
           ),
         ),

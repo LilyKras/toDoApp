@@ -1,13 +1,14 @@
 import 'package:to_do_list/helpers/enums.dart';
 
 class Task {
-  Task(
-      {required this.id,
-      required this.text,
-      required this.priority,
-      required this.hasDate,
-      this.date,
-      required this.doneStatus,});
+  Task({
+    required this.id,
+    required this.text,
+    required this.priority,
+    required this.hasDate,
+    this.date,
+    required this.doneStatus,
+  });
   final String id;
   final String text;
   final Priority priority;
