@@ -6,6 +6,8 @@ import 'package:to_do_list/providers/task.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
@@ -185,7 +187,7 @@ class _TaskItemState extends State<TaskItem> {
                         ),
                         if (widget.task.hasDate)
                           Text(
-                            DateFormat('d MMMM y').format(widget.task.date!),
+                            DateFormat('d MMMM y', AppLocalizations.of(context)!.locale).format(widget.task.date!),
                             style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodySmall!.color,

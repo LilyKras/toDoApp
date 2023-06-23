@@ -12,5 +12,6 @@
     "save": "Save",
     "cancel": "CANCEL",
     "ok": "OK",
-    "noTask":"No task's text"
+    "noTask":"No task's text",
+    "locale": "en"
 }
