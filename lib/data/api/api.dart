@@ -47,8 +47,9 @@ class TaskListAPIStorage implements TaskDB {
       'element': {
         'id': task.id, // уникальный идентификатор элемента
         'text': task.text,
-        'importance': getPriority(task
-            .priority), // importance = low | basic | important// int64, может отсутствовать, тогда нет
+        'importance': getPriority(
+          task.priority,
+        ), // importance = low | basic | important// int64, может отсутствовать, тогда нет
         'done': task.doneStatus,
         'created_at': DateTime.now().millisecondsSinceEpoch,
         'changed_at': DateTime.now().millisecondsSinceEpoch,
@@ -118,7 +119,8 @@ class TaskListAPIStorage implements TaskDB {
         'id': newTask.id, // уникальный идентификатор элемента
         'text': newTask.text,
         'importance': getPriority(
-            newTask.priority), // importance = low | basic | important
+          newTask.priority,
+        ), // importance = low | basic | important
         'done': newTask.doneStatus, // может отсутствовать
         'created_at': createdAt,
         'changed_at': DateTime.now().millisecondsSinceEpoch,
