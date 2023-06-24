@@ -17,6 +17,7 @@ String priorityToString(Priority priority) {
   return 'Нет';
 }
 
+// ignore: must_be_immutable
 class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
@@ -82,39 +83,40 @@ class _PriorityFormState extends State<PriorityForm> {
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
-                    value: value,
-                    child: value == '‼ Высокий'
-                        ? Text(
-                            '!! ${AppLocalizations.of(context)!.high}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.error,
-                              fontSize: 14,
-                              height: 20 / 14,
+                  value: value,
+                  child: value == '‼ Высокий'
+                      ? Text(
+                          '!! ${AppLocalizations.of(context)!.high}',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontSize: 14,
+                            height: 20 / 14,
+                          ),
+                        )
+                      : value == 'Нет'
+                          ? Text(
+                              AppLocalizations.of(context)!.none,
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 20 / 14,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .color,
+                              ),
+                            )
+                          : Text(
+                              AppLocalizations.of(context)!.low,
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 20 / 14,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .color,
+                              ),
                             ),
-                          )
-                        : value == 'Нет'
-                            ? Text(
-                                AppLocalizations.of(context)!.none,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  height: 20 / 14,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color,
-                                ),
-                              )
-                            : Text(
-                                AppLocalizations.of(context)!.low,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  height: 20 / 14,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color,
-                                ),
-                              ));
+                );
               }).toList(),
             ),
           )

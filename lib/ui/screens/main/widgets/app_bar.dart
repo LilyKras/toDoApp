@@ -31,8 +31,9 @@ class TaskAppBar extends StatelessWidget {
           Consumer<Tasks>(
             builder: (context, value, _) => IconButton(
               padding: const EdgeInsets.only(top: 8),
-              onPressed: () {
+              onPressed: () async {
                 value.toggleShowDone();
+                // await clearAll(); //проверка для себя
               },
               icon: value.showUndone
                   ? Icon(

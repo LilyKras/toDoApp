@@ -1,15 +1,27 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
-import 'package:http/http.dart' as http;
 
+import '../data/api/api.dart';
+import '../helpers/enums.dart';
 import '../helpers/logger.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Priority importanceToPriority(String imp) {
+  if (imp == 'low') {
+    return Priority.low;
+  }
+  if (imp == 'important') {
+    return Priority.hight;
+  }
+  return Priority.none;
+}
 
 class Tasks with ChangeNotifier {
   bool _showUndone = true;
-  final List<Task> _myTasks = [];
+  List<Task> _myTasks = [];
   int _counter = 0;
+  TaskListAPIStorage api = TaskListAPIStorage();
 
   List<Task> get myTasks {
     if (!_showUndone) {
@@ -27,6 +39,29 @@ class Tasks with ChangeNotifier {
     return _showUndone;
   }
 
+  Future<void> fetchAndSetTasks() async {
+    int tempCounter = 0;
+    var tempList = await api.getAll();
+    List<Task> loadedTaskLisk = [];
+    for (var elem in tempList) {
+      var tempTask = Task(
+        id: elem['id'],
+        text: elem['text'],
+        priority: importanceToPriority(elem['importance']),
+        hasDate: elem.containsKey('deadline'),
+        doneStatus: elem['done'],
+        date: elem.containsKey('deadline')
+            ? DateTime.fromMillisecondsSinceEpoch(elem['deadline'])
+            : null,
+      );
+      loadedTaskLisk.add(tempTask);
+      if (elem['done']){tempCounter+=1;}
+    }
+    _myTasks = loadedTaskLisk;
+    _counter = tempCounter;
+      notifyListeners();
+  }
+
   Task findById(String id) {
     return _myTasks.firstWhere((task) => task.id == id);
   }
@@ -37,55 +72,25 @@ class Tasks with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleDoneStatus(String id) async {
+  Future<void> toggleDoneStatus(String id) async {
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
     log('info', 'Change doneStatus for task with id: $id');
     !_myTasks[taskIndex].doneStatus ? _counter += 1 : _counter -= 1;
     _myTasks[taskIndex].doneStatus = !_myTasks[taskIndex].doneStatus;
+
+    await api.updateItem(id, _myTasks[taskIndex]);
     notifyListeners();
   }
 
   Future<void> addTask(Task task) async {
+    await api.addItem(task);
     _myTasks.add(task);
     log('info', 'Add new task with id: ${task.id}');
     notifyListeners();
-    Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'Content-Type': 'appplication/json',
-      },
-    );
-    debugPrint(json.decode(response.body).toString());
-    var revision = json.decode(response.body)['revision'].toString();
-    var obj = {
-      'element': {
-        'id': task.id, // уникальный идентификатор элемента
-        'text': 'blablabla',
-        'importance': 'low', // importance = low | basic | important
-        'deadline': DateTime.now()
-            .millisecondsSinceEpoch, // int64, может отсутствовать, тогда нет
-        'done': true,
-        'color': '#FFFFFF', // может отсутствовать
-        'created_at': DateTime.now().millisecondsSinceEpoch,
-        'changed_at': DateTime.now().millisecondsSinceEpoch,
-        'last_updated_by': task.id
-      }
-    };
-    final response1 = await http.post(
-      url,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'X-Last-Known-Revision': revision,
-        'Content-Type': 'appplication/json',
-      },
-      body: json.encode(obj),
-    );
-    debugPrint(json.decode(response1.body).toString());
   }
 
-  void updateTask(String id, Task newTask) async {
+  Future<void> updateTask(String id, Task newTask) async {
+    await api.updateItem(id, newTask);
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
     if (taskIndex >= 0) {
       _myTasks[taskIndex] = newTask;
@@ -96,12 +101,48 @@ class Tasks with ChangeNotifier {
     }
   }
 
-  void deleteTask(String id) {
+  Future<void> deleteTask(String id) async {
+    await api.removeItem(id);
     final existingTaskIndex =
         _myTasks.indexWhere((element) => element.id == id);
     if (_myTasks[existingTaskIndex].doneStatus) _counter -= 1;
     _myTasks.removeAt(existingTaskIndex);
     log('info', 'Remove task with id: $id');
     notifyListeners();
+    Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+    final response1 = await http.get(
+      url1,
+      headers: {
+        'Authorization': 'Bearer demirelief',
+        'Content-Type': 'appplication/json',
+      },
+    );
+    debugPrint(json.decode(response1.body)['list'].toString());
   }
+}
+
+// Проверка
+TaskListAPIStorage api = TaskListAPIStorage();
+Future<void> clearAll() async {
+  Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+  final response = await http.get(
+    url,
+    headers: {
+      'Authorization': 'Bearer demirelief',
+      'Content-Type': 'appplication/json',
+    },
+  );
+  debugPrint(json.decode(response.body)['list'].toString());
+  for (var elem in json.decode(response.body)['list']) {
+    await api.removeItem(elem['id']);
+  }
+  Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+  final response1 = await http.get(
+    url1,
+    headers: {
+      'Authorization': 'Bearer demirelief',
+      'Content-Type': 'appplication/json',
+    },
+  );
+  debugPrint(json.decode(response1.body)['list'].toString());
 }
