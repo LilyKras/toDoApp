@@ -61,7 +61,8 @@ class Tasks with ChangeNotifier {
         tempCounter += 1;
       }
     }
-    _myTasks = loadedTaskLisk; //если заменить на await sql.getAll(), то выведутся дела из локальной памяти
+    _myTasks =
+        loadedTaskLisk; //если заменить на await sql.getAll(), то выведутся дела из локальной памяти
     _counter = tempCounter;
     notifyListeners();
   }
@@ -115,7 +116,7 @@ class Tasks with ChangeNotifier {
     log('info', 'Remove task with id: $id');
     notifyListeners();
     await api.removeItem(id);
-    await sql.removeItem(id); 
+    await sql.removeItem(id);
   }
 }
 
