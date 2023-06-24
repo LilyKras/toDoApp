@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
 
 import '../data/api/api.dart';
+import '../data/local storage/tasks_list_db.dart';
 import '../helpers/enums.dart';
 import '../helpers/logger.dart';
 // import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ class Tasks with ChangeNotifier {
   List<Task> _myTasks = [];
   int _counter = 0;
   TaskListAPIStorage api = TaskListAPIStorage();
+  TaskListDBStorage sql = TaskListDBStorage();
 
   List<Task> get myTasks {
     if (!_showUndone) {
@@ -59,7 +61,7 @@ class Tasks with ChangeNotifier {
         tempCounter += 1;
       }
     }
-    _myTasks = loadedTaskLisk;
+    _myTasks = loadedTaskLisk; //если заменить на await sql.getAll(), то выведутся дела из локальной памяти
     _counter = tempCounter;
     notifyListeners();
   }
@@ -81,6 +83,7 @@ class Tasks with ChangeNotifier {
     _myTasks[taskIndex].doneStatus = !_myTasks[taskIndex].doneStatus;
     notifyListeners();
     await api.updateItem(id, _myTasks[taskIndex]);
+    await sql.updateItem(id, _myTasks[taskIndex]);
   }
 
   Future<void> addTask(Task task) async {
@@ -88,6 +91,7 @@ class Tasks with ChangeNotifier {
     log('info', 'Add new task with id: ${task.id}');
     notifyListeners();
     await api.addItem(task);
+    await sql.addItem(task);
   }
 
   Future<void> updateTask(String id, Task newTask) async {
@@ -100,6 +104,7 @@ class Tasks with ChangeNotifier {
       log('warning', 'There is no task with this id: $id');
     }
     await api.updateItem(id, newTask);
+    await sql.updateItem(id, newTask);
   }
 
   Future<void> deleteTask(String id) async {
@@ -110,10 +115,11 @@ class Tasks with ChangeNotifier {
     log('info', 'Remove task with id: $id');
     notifyListeners();
     await api.removeItem(id);
+    await sql.removeItem(id); 
   }
 }
 
-// Проверка
+// Проверка - удаление всех заметок
 // TaskListAPIStorage api = TaskListAPIStorage();
 // Future<void> clearAll() async {
 //   Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
