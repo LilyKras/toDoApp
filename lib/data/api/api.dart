@@ -20,12 +20,11 @@ import 'dart:convert';
 //   return 'unknown';
 // }
 
-String getPriority(Priority a){
-
-  if (a == Priority.hight){
+String getPriority(Priority a) {
+  if (a == Priority.hight) {
     return 'important';
   }
-  if (a == Priority.low){
+  if (a == Priority.low) {
     return 'low';
   }
   return 'basic';
@@ -48,14 +47,17 @@ class TaskListAPIStorage implements TaskDB {
       'element': {
         'id': task.id, // уникальный идентификатор элемента
         'text': task.text,
-        'importance': getPriority(task.priority), // importance = low | basic | important// int64, может отсутствовать, тогда нет
-        'done': task.doneStatus, 
+        'importance': getPriority(task
+            .priority), // importance = low | basic | important// int64, может отсутствовать, тогда нет
+        'done': task.doneStatus,
         'created_at': DateTime.now().millisecondsSinceEpoch,
         'changed_at': DateTime.now().millisecondsSinceEpoch,
         'last_updated_by': 'unknown'
       }
     };
-    if (task.hasDate != false) {obj['element']?['deadline']= task.date!.millisecondsSinceEpoch;}
+    if (task.hasDate != false) {
+      obj['element']?['deadline'] = task.date!.millisecondsSinceEpoch;
+    }
     await http.post(
       url,
       headers: {
@@ -115,14 +117,17 @@ class TaskListAPIStorage implements TaskDB {
       'element': {
         'id': newTask.id, // уникальный идентификатор элемента
         'text': newTask.text,
-        'importance': getPriority(newTask.priority), // importance = low | basic | important
+        'importance': getPriority(
+            newTask.priority), // importance = low | basic | important
         'done': newTask.doneStatus, // может отсутствовать
         'created_at': createdAt,
         'changed_at': DateTime.now().millisecondsSinceEpoch,
         'last_updated_by': 'unknown'
       }
     };
-    if (newTask.hasDate != false){obj['element']?['deadline']= newTask.date!.millisecondsSinceEpoch;}
+    if (newTask.hasDate != false) {
+      obj['element']?['deadline'] = newTask.date!.millisecondsSinceEpoch;
+    }
 
     await http.put(
       url,

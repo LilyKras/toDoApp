@@ -56,7 +56,8 @@ class _TimeFormState extends State<TimeForm> {
               ),
               if (hasDate && selectedDate != null)
                 Text(
-                  DateFormat('d MMMM y', AppLocalizations.of(context)!.locale).format(selectedDate!),
+                  DateFormat('d MMMM y', AppLocalizations.of(context)!.locale)
+                      .format(selectedDate!),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 14,

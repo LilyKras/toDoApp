@@ -170,7 +170,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   date: widget.enteredDate,
                 );
                 arguments == null
-                    ? await Provider.of<Tasks>(context, listen: false).addTask(temp)
+                    ? await Provider.of<Tasks>(context, listen: false)
+                        .addTask(temp)
                     : await Provider.of<Tasks>(context, listen: false)
                         .updateTask(arguments!.id, temp);
                 log('info', 'Change screen to MainScreen');

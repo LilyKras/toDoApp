@@ -4,8 +4,8 @@ import 'package:to_do_list/models/task.dart';
 import '../data/api/api.dart';
 import '../helpers/enums.dart';
 import '../helpers/logger.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 Priority importanceToPriority(String imp) {
   if (imp == 'low') {
@@ -55,11 +55,13 @@ class Tasks with ChangeNotifier {
             : null,
       );
       loadedTaskLisk.add(tempTask);
-      if (elem['done']){tempCounter+=1;}
+      if (elem['done']) {
+        tempCounter += 1;
+      }
     }
     _myTasks = loadedTaskLisk;
     _counter = tempCounter;
-      notifyListeners();
+    notifyListeners();
   }
 
   Task findById(String id) {
@@ -77,20 +79,18 @@ class Tasks with ChangeNotifier {
     log('info', 'Change doneStatus for task with id: $id');
     !_myTasks[taskIndex].doneStatus ? _counter += 1 : _counter -= 1;
     _myTasks[taskIndex].doneStatus = !_myTasks[taskIndex].doneStatus;
-
-    await api.updateItem(id, _myTasks[taskIndex]);
     notifyListeners();
+    await api.updateItem(id, _myTasks[taskIndex]);
   }
 
   Future<void> addTask(Task task) async {
-    await api.addItem(task);
     _myTasks.add(task);
     log('info', 'Add new task with id: ${task.id}');
     notifyListeners();
+    await api.addItem(task);
   }
 
   Future<void> updateTask(String id, Task newTask) async {
-    await api.updateItem(id, newTask);
     final taskIndex = _myTasks.indexWhere((prod) => prod.id == id);
     if (taskIndex >= 0) {
       _myTasks[taskIndex] = newTask;
@@ -99,50 +99,42 @@ class Tasks with ChangeNotifier {
     } else {
       log('warning', 'There is no task with this id: $id');
     }
+    await api.updateItem(id, newTask);
   }
 
   Future<void> deleteTask(String id) async {
-    await api.removeItem(id);
     final existingTaskIndex =
         _myTasks.indexWhere((element) => element.id == id);
     if (_myTasks[existingTaskIndex].doneStatus) _counter -= 1;
     _myTasks.removeAt(existingTaskIndex);
     log('info', 'Remove task with id: $id');
     notifyListeners();
-    Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-    final response1 = await http.get(
-      url1,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'Content-Type': 'appplication/json',
-      },
-    );
-    debugPrint(json.decode(response1.body)['list'].toString());
+    await api.removeItem(id);
   }
 }
 
 // Проверка
-TaskListAPIStorage api = TaskListAPIStorage();
-Future<void> clearAll() async {
-  Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-  final response = await http.get(
-    url,
-    headers: {
-      'Authorization': 'Bearer demirelief',
-      'Content-Type': 'appplication/json',
-    },
-  );
-  debugPrint(json.decode(response.body)['list'].toString());
-  for (var elem in json.decode(response.body)['list']) {
-    await api.removeItem(elem['id']);
-  }
-  Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-  final response1 = await http.get(
-    url1,
-    headers: {
-      'Authorization': 'Bearer demirelief',
-      'Content-Type': 'appplication/json',
-    },
-  );
-  debugPrint(json.decode(response1.body)['list'].toString());
-}
+// TaskListAPIStorage api = TaskListAPIStorage();
+// Future<void> clearAll() async {
+//   Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+//   final response = await http.get(
+//     url,
+//     headers: {
+//       'Authorization': 'Bearer demirelief',
+//       'Content-Type': 'appplication/json',
+//     },
+//   );
+//   debugPrint(json.decode(response.body)['list'].toString());
+//   for (var elem in json.decode(response.body)['list']) {
+//     await api.removeItem(elem['id']);
+//   }
+//   Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+//   final response1 = await http.get(
+//     url1,
+//     headers: {
+//       'Authorization': 'Bearer demirelief',
+//       'Content-Type': 'appplication/json',
+//     },
+//   );
+//   debugPrint(json.decode(response1.body)['list'].toString());
+// }
