@@ -21,6 +21,7 @@ Priority stringToPriority(String priority) {
   return Priority.none;
 }
 
+// ignore: must_be_immutable
 class NewTaskScreen extends StatefulWidget {
   NewTaskScreen({super.key});
   String enteredTask = '';
@@ -157,8 +158,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (saveItem()) {
+                Navigator.of(context).pop();
                 Task temp = Task(
                   id: arguments == null ? uid.v1() : arguments!.id,
                   text: widget.enteredTask,
@@ -168,10 +170,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   date: widget.enteredDate,
                 );
                 arguments == null
-                    ? Provider.of<Tasks>(context, listen: false).addTask(temp)
-                    : Provider.of<Tasks>(context, listen: false)
+                    ? await Provider.of<Tasks>(context, listen: false)
+                        .addTask(temp)
+                    : await Provider.of<Tasks>(context, listen: false)
                         .updateTask(arguments!.id, temp);
-                Navigator.of(context).pop();
                 log('info', 'Change screen to MainScreen');
               }
             },

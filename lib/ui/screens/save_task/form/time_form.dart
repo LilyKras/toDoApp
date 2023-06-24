@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
 
+// ignore: must_be_immutable
 class TimeForm extends StatefulWidget {
   TimeForm({super.key, this.arguments});
   bool hasDate = false;
@@ -55,7 +56,8 @@ class _TimeFormState extends State<TimeForm> {
               ),
               if (hasDate && selectedDate != null)
                 Text(
-                  DateFormat('d MMMM y', AppLocalizations.of(context)!.locale).format(selectedDate!),
+                  DateFormat('d MMMM y', AppLocalizations.of(context)!.locale)
+                      .format(selectedDate!),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 14,

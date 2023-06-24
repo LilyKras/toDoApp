@@ -187,7 +187,10 @@ class _TaskItemState extends State<TaskItem> {
                         ),
                         if (widget.task.hasDate)
                           Text(
-                            DateFormat('d MMMM y', AppLocalizations.of(context)!.locale).format(widget.task.date!),
+                            DateFormat(
+                              'd MMMM y',
+                              AppLocalizations.of(context)!.locale,
+                            ).format(widget.task.date!),
                             style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodySmall!.color,
