@@ -41,28 +41,36 @@ class Tasks with ChangeNotifier {
     return _showUndone;
   }
 
-  Future<void> fetchAndSetTasks() async {
-    int tempCounter = 0;
-    var tempList = await api.getAll();
-    List<Task> loadedTaskLisk = [];
-    for (var elem in tempList) {
-      var tempTask = Task(
-        id: elem['id'],
-        text: elem['text'],
-        priority: importanceToPriority(elem['importance']),
-        hasDate: elem.containsKey('deadline'),
-        doneStatus: elem['done'],
-        date: elem.containsKey('deadline')
-            ? DateTime.fromMillisecondsSinceEpoch(elem['deadline'])
-            : null,
-      );
-      loadedTaskLisk.add(tempTask);
-      if (elem['done']) {
-        tempCounter += 1;
+  Future <void> patch() async {
+    List <Task> sqlList = await sql.getAll();
+    List <Task> apiList = await api.getAll();
+
+    List <Task> result = [];
+
+    Map <String, Task> helper = {};
+
+    for (var elem in sqlList){
+        helper[elem.id] = elem;
+    }
+
+    for (var elem in apiList){
+      if (helper.containsKey(elem.id)){
+
       }
     }
+
+  }
+
+  Future<void> fetchAndSetTasks() async {
+    int tempCounter = 0;
+    // await patch();
     _myTasks =
-        loadedTaskLisk; //если заменить на await sql.getAll(), то выведутся дела из локальной памяти
+        await sql.getAll(); 
+    for(var  elem in _myTasks){
+      if (elem.doneStatus){
+        tempCounter+= 1;
+      }
+    }
     _counter = tempCounter;
     notifyListeners();
   }

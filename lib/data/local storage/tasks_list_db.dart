@@ -25,6 +25,7 @@ abstract interface class TaskDB {
   Future<void> removeItem(String id);
   Future<void> updateItem(String id, Task newTask);
   Future<List> getAll();
+  Future<void> patch(List<Task> tasks);
 }
 
 class TaskListDBStorage implements TaskDB {
@@ -84,5 +85,27 @@ class TaskListDBStorage implements TaskDB {
       ),
     );
     return tasks.toList();
+  }
+  
+
+  @override
+  Future<void> patch(List<Task> tasks) async {
+    List<Task> dbTasks = await getAll();
+    Map <String, Task> helper = {};
+    for (var elem in tasks){
+      helper[elem.id] = elem;
+    }
+    for (var elem in dbTasks){
+      if (helper.containsKey(elem.id)){
+        updateItem(elem.id, helper[elem.id]!);
+      }
+      else{
+        removeItem(elem.id);
+      }
+      helper.remove(elem.id);
+    }
+    for (var elem in helper.keys){
+      addItem(helper[elem]!);
+    }
   }
 }

@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   runApp(
-    MultiProvider(
+  MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => Tasks(),

@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
 
-// ignore: must_be_immutable
 class TextForm extends StatelessWidget {
   TextForm({super.key, required this.arguments});
   String text = '';

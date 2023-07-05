@@ -4,6 +4,7 @@
 
 import '../../helpers/enums.dart';
 import '../../models/task.dart';
+import '../../providers/task.dart';
 import '../local storage/tasks_list_db.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -30,19 +31,24 @@ String getPriority(Priority a) {
   return 'basic';
 }
 
+Future<String> getRevision() async {
+  Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+  final response = await http.get(
+    url,
+    headers: {
+      'Authorization': 'Bearer demirelief',
+      'Content-Type': 'appplication/json',
+    },
+  );
+
+  return json.decode(response.body)['revision'].toString();
+}
+
 class TaskListAPIStorage implements TaskDB {
   @override
   Future<void> addItem(Task task) async {
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'Content-Type': 'appplication/json',
-      },
-    );
 
-    var revision = json.decode(response.body)['revision'].toString();
     var obj = {
       'element': {
         'id': task.id, // уникальный идентификатор элемента
@@ -63,40 +69,21 @@ class TaskListAPIStorage implements TaskDB {
       url,
       headers: {
         'Authorization': 'Bearer demirelief',
-        'X-Last-Known-Revision': revision,
+        'X-Last-Known-Revision': await getRevision(),
         'Content-Type': 'appplication/json',
       },
       body: json.encode(obj),
     );
-
-    Uri url1 = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
-    final response1 = await http.get(
-      url1,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'Content-Type': 'appplication/json',
-      },
-    );
-    (json.decode(response1.body)['list'].toString());
   }
 
   @override
   Future<void> removeItem(String id) async {
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list/$id');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer demirelief',
-        'Content-Type': 'appplication/json',
-      },
-    );
-
-    var revision = json.decode(response.body)['revision'].toString();
     await http.delete(
       url,
       headers: {
         'Authorization': 'Bearer demirelief',
-        'X-Last-Known-Revision': revision,
+        'X-Last-Known-Revision': await getRevision(),
         'Content-Type': 'appplication/json',
       },
     );
@@ -143,7 +130,7 @@ class TaskListAPIStorage implements TaskDB {
   }
 
   @override
-  Future<List> getAll() async {
+  Future<List<Task>> getAll() async {
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
     final response = await http.get(
       url,
@@ -152,6 +139,68 @@ class TaskListAPIStorage implements TaskDB {
         'Content-Type': 'appplication/json',
       },
     );
-    return json.decode(response.body)['list'];
+    var tempList = json.decode(response.body)['list'];
+
+    List<Task> loadedTaskList = [];
+    for (var elem in tempList) {
+      var tempTask = Task(
+        id: elem['id'],
+        text: elem['text'],
+        priority: importanceToPriority(elem['importance']),
+        hasDate: elem.containsKey('deadline'),
+        doneStatus: elem['done'],
+        date: elem.containsKey('deadline')
+            ? DateTime.fromMillisecondsSinceEpoch(elem['deadline'])
+            : null,
+      );
+      loadedTaskList.add(tempTask);
+    }
+    return loadedTaskList;
+  }
+
+  @override
+  Future<void> patch(List<Task> tasks) async {
+    var revision = await getRevision();
+
+    var obj = {'list': []};
+
+    for (var task in tasks) {
+      int createdAt, changedAt; 
+
+      Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list/${task.id}');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer demirelief',
+          'Content-Type': 'appplication/json',
+        },
+      );
+      createdAt = json.decode(response.body)['element']['created_at'];
+      changedAt = json.decode(response.body)['element']['changed_at'];
+      obj['list']?.add(
+        {
+          'id': task.id, // уникальный идентификатор элемента
+          'text': task.text,
+          'importance': getPriority(
+            task.priority,
+          ), // importance = low | basic | important
+          'done': task.doneStatus, // может отсутствовать
+          'created_at': createdAt,
+          'changed_at': changedAt,
+          'last_updated_by': 'unknown'
+        },
+      );
+    }
+
+    Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+    await http.patch(
+      url,
+      headers: {
+        'Authorization': 'Bearer demirelief',
+        'Content-Type': 'appplication/json',
+        'X-Last-Known-Revision': revision,
+      },
+      body: json.encode(obj),
+    );
   }
 }
