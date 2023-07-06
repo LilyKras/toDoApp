@@ -1,3 +1,3 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final tasksProvider = Provider((ref){});
+final tasksProvider = Provider((ref) {});

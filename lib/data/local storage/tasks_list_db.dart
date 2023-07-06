@@ -86,25 +86,23 @@ class TaskListDBStorage implements TaskDB {
     );
     return tasks.toList();
   }
-  
 
   @override
   Future<void> patch(List<Task> tasks) async {
     List<Task> dbTasks = await getAll();
-    Map <String, Task> helper = {};
-    for (var elem in tasks){
+    Map<String, Task> helper = {};
+    for (var elem in tasks) {
       helper[elem.id] = elem;
     }
-    for (var elem in dbTasks){
-      if (helper.containsKey(elem.id)){
+    for (var elem in dbTasks) {
+      if (helper.containsKey(elem.id)) {
         updateItem(elem.id, helper[elem.id]!);
-      }
-      else{
+      } else {
         removeItem(elem.id);
       }
       helper.remove(elem.id);
     }
-    for (var elem in helper.keys){
+    for (var elem in helper.keys) {
       addItem(helper[elem]!);
     }
   }

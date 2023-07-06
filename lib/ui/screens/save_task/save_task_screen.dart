@@ -21,7 +21,6 @@ Priority stringToPriority(String priority) {
   return Priority.none;
 }
 
-
 class NewTaskScreen extends StatefulWidget {
   NewTaskScreen({super.key});
   String enteredTask = '';
