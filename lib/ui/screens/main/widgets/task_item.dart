@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/constants.dart';
-import 'package:to_do_list/providers/task.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
@@ -11,17 +11,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
+import '../../../../providers/tasks.dart';
 import '../../save_task/save_task_screen.dart';
 
-class TaskItem extends StatefulWidget {
+class TaskItem extends ConsumerStatefulWidget {
   const TaskItem({super.key, required this.task});
   final Task task;
 
   @override
-  State<TaskItem> createState() => _TaskItemState();
+  ConsumerState<TaskItem> createState() => _TaskItemState();
 }
 
-class _TaskItemState extends State<TaskItem> {
+class _TaskItemState extends ConsumerState<TaskItem> {
   late double dismissProgress;
 
   @override
@@ -96,8 +97,8 @@ class _TaskItemState extends State<TaskItem> {
             return true;
           } else {
             log('info', 'Swipe mode is Done/Undone');
-            Provider.of<Tasks>(context, listen: false)
-                .toggleDoneStatus(widget.task.id);
+            
+                ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id);
 
             return false;
           }
@@ -109,12 +110,11 @@ class _TaskItemState extends State<TaskItem> {
         onDismissed: (direction) {
           if (direction == DismissDirection.endToStart) {
             log('info', 'Swipe mode is Delete');
-            Provider.of<Tasks>(context, listen: false)
-                .deleteTask(widget.task.id);
+            
+                ref.read(allTasksProvider.notifier).deleteTask(widget.task.id);
           }
         },
-        child: Consumer<Tasks>(
-          builder: (ctx, value, _) => Padding(
+        child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +123,7 @@ class _TaskItemState extends State<TaskItem> {
                 Checkbox(
                   value: widget.task.doneStatus,
                   onChanged: (_) {
-                    value.toggleDoneStatus(widget.task.id);
+                    ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id);
                   },
                   fillColor: MaterialStateProperty.resolveWith(
                     (Set<MaterialState> states) {
@@ -222,7 +222,7 @@ class _TaskItemState extends State<TaskItem> {
               ],
             ),
           ),
-        ),
+        
       ),
     );
   }

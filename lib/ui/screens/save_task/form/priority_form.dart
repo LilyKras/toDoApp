@@ -17,6 +17,7 @@ String priorityToString(Priority priority) {
   return 'Нет';
 }
 
+// ignore: must_be_immutable
 class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
