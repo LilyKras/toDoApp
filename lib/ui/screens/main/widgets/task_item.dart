@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
+import '../../../../providers/counter.dart';
 import '../../../../providers/tasks.dart';
 import '../../save_task/save_task_screen.dart';
 
@@ -98,7 +99,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           } else {
             log('info', 'Swipe mode is Done/Undone');
             
-                ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id);
+                await ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id)? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(1);
 
             return false;
           }
@@ -107,11 +108,11 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           DismissDirection.endToStart: 0.2,
           DismissDirection.startToEnd: 0.2
         },
-        onDismissed: (direction) {
+        onDismissed: (direction) async {
           if (direction == DismissDirection.endToStart) {
             log('info', 'Swipe mode is Delete');
             
-                ref.read(allTasksProvider.notifier).deleteTask(widget.task.id);
+                await ref.read(allTasksProvider.notifier).deleteTask(widget.task.id) ? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(0);
           }
         },
         child: Padding(
@@ -122,8 +123,8 @@ class _TaskItemState extends ConsumerState<TaskItem> {
               children: [
                 Checkbox(
                   value: widget.task.doneStatus,
-                  onChanged: (_) {
-                    ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id);
+                  onChanged: (_) async {
+                    await ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id) ? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(1);
                   },
                   fillColor: MaterialStateProperty.resolveWith(
                     (Set<MaterialState> states) {

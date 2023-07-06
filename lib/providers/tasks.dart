@@ -10,7 +10,6 @@ import '../helpers/logger.dart';
 class AllTasksNotifier extends StateNotifier<List<Task>> {
   final TaskListAPIStorage _api = TaskListAPIStorage();
   final TaskListDBStorage _sql = TaskListDBStorage();
-  int _counter = 0;
 
   AllTasksNotifier() : super(const []);
   Future<void> addTask(Task task) async {
@@ -40,9 +39,10 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     await _sql.updateItem(id, newTask);
   }
 
-  Future<void> deleteTask(String id) async {
+  Future<bool> deleteTask(String id) async {
+    bool hasDec = false;
     final existingTaskIndex = state.indexWhere((element) => element.id == id);
-    if (state[existingTaskIndex].doneStatus) _counter -= 1;
+    if (state[existingTaskIndex].doneStatus) {hasDec = true;}
     List<Task> temp = [];
     for (int i = 0; i < existingTaskIndex; i++) {
       temp.add(state[i]);
@@ -54,16 +54,17 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     log('info', 'Remove task with id: $id');
     await _api.removeItem(id);
     await _sql.removeItem(id);
+
+    return hasDec;
   }
 
-  int getDoneCount() {
-    return _counter;
-  }
 
-  Future<void> toggleDoneStatus(String id) async {
+
+  Future<bool> toggleDoneStatus(String id) async {
+    bool hasDec = false;
     final taskIndex = state.indexWhere((prod) => prod.id == id);
     log('info', 'Change doneStatus for task with id: $id');
-    !state[taskIndex].doneStatus ? _counter += 1 : _counter -= 1;
+    !state[taskIndex].doneStatus ? hasDec = false : hasDec = true;
     List<Task> temp = [];
     for (int i = 0; i < taskIndex; i++) {
       temp.add(state[i]);
@@ -77,7 +78,10 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     state = temp;
     await _api.updateItem(id, state[taskIndex]);
     await _sql.updateItem(id, state[taskIndex]);
+    return hasDec;
   }
+
+  
 }
 
 final allTasksProvider = StateNotifierProvider((ref) {

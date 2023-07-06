@@ -4,7 +4,7 @@ class CounterNotifier extends StateNotifier<int> {
   CounterNotifier() : super(0);
 
   void updateCounter(int sum) {
-    state = sum;
+    state += sum;
   }
 }
 

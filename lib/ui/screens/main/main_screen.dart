@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_list/providers/task.dart';
 import 'package:to_do_list/ui/screens/main/widgets/app_bar.dart';
 import 'package:to_do_list/ui/screens/main/widgets/new_task_button.dart';
 import 'package:to_do_list/ui/screens/main/widgets/tasks_list.dart';
@@ -45,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
                   TasksList(),
                 ],
               ),
+      
     );
   }
 }

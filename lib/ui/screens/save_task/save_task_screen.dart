@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/logger.dart';
+import 'package:to_do_list/providers/counter.dart';
 import 'package:to_do_list/providers/tasks.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -98,7 +99,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
             ? null
             : () async {
                 Navigator.of(context).pop();
-                await ref.read(allTasksProvider.notifier).deleteTask(arguments!.id);
+                await ref.read(allTasksProvider.notifier).deleteTask(arguments!.id)? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(0);
                 log('info', 'Change screen to MainScreen');
               },
         child: Row(
