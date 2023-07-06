@@ -6,7 +6,7 @@ import 'package:to_do_list/ui/screens/main/widgets/new_task_button.dart';
 import 'package:to_do_list/ui/screens/main/widgets/tasks_list.dart';
 
 class MainScreen extends StatefulWidget {
-  static const routeName = 'main';
+  static const routeName = '/main';
   const MainScreen({super.key});
 
   @override

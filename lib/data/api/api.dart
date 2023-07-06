@@ -2,6 +2,8 @@
 
 // import 'package:device_info_plus/device_info_plus.dart';
 
+import 'package:flutter/material.dart';
+
 import '../../helpers/enums.dart';
 import '../../models/task.dart';
 import '../../providers/task.dart';
@@ -32,6 +34,7 @@ String getPriority(Priority a) {
 }
 
 Future<String> getRevision() async {
+  try{
   Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
   final response = await http.get(
     url,
@@ -42,6 +45,9 @@ Future<String> getRevision() async {
   );
 
   return json.decode(response.body)['revision'].toString();
+  } catch(e){
+    return '0';
+  }
 }
 
 class TaskListAPIStorage implements TaskDB {
@@ -65,6 +71,7 @@ class TaskListAPIStorage implements TaskDB {
     if (task.hasDate != false) {
       obj['element']?['deadline'] = task.date!.millisecondsSinceEpoch;
     }
+    try{
     await http.post(
       url,
       headers: {
@@ -73,34 +80,39 @@ class TaskListAPIStorage implements TaskDB {
         'Content-Type': 'appplication/json',
       },
       body: json.encode(obj),
-    );
+    );} catch(e){
+      debugPrint('No internet');
+    }
   }
 
   @override
   Future<void> removeItem(String id) async {
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list/$id');
-    await http.delete(
+    try {await http.delete(
       url,
       headers: {
         'Authorization': 'Bearer demirelief',
         'X-Last-Known-Revision': await getRevision(),
         'Content-Type': 'appplication/json',
       },
-    );
-  }
+    );}
+  catch(e)
+{}  }
 
   @override
   Future<void> updateItem(String id, Task newTask) async {
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list/$id');
-    final response = await http.get(
+    var revision;
+    var createdAt;
+    try {final response = await http.get(
       url,
       headers: {
         'Authorization': 'Bearer demirelief',
         'Content-Type': 'appplication/json',
       },
     );
-    var revision = json.decode(response.body)['revision'].toString();
-    var createdAt = json.decode(response.body)['element']['created_at'];
+    revision = json.decode(response.body)['revision'].toString();
+    createdAt = json.decode(response.body)['element']['created_at'];} catch(e){createdAt = DateTime.now().millisecondsSinceEpoch; revision = "0";}
     var obj = {
       'element': {
         'id': newTask.id, // уникальный идентификатор элемента
@@ -117,7 +129,7 @@ class TaskListAPIStorage implements TaskDB {
     if (newTask.hasDate != false) {
       obj['element']?['deadline'] = newTask.date!.millisecondsSinceEpoch;
     }
-
+  try{
     await http.put(
       url,
       headers: {
@@ -126,12 +138,15 @@ class TaskListAPIStorage implements TaskDB {
         'X-Last-Known-Revision': revision,
       },
       body: json.encode(obj),
-    );
+    );}catch(e){
+    }
   }
 
   @override
   Future<List<Task>> getAll() async {
+    var tempList = [];
     Uri url = Uri.parse('https://beta.mrdekk.ru/todobackend/list');
+    try{
     final response = await http.get(
       url,
       headers: {
@@ -139,7 +154,7 @@ class TaskListAPIStorage implements TaskDB {
         'Content-Type': 'appplication/json',
       },
     );
-    var tempList = json.decode(response.body)['list'];
+    tempList = json.decode(response.body)['list'];}catch(e){}
 
     List<Task> loadedTaskList = [];
     for (var elem in tempList) {
