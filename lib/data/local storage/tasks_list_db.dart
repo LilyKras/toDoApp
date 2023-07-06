@@ -3,8 +3,8 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart' as path;
 
-import '../../providers/task.dart';
 import '../api/api.dart';
+import '../data.dart';
 
 Future<Database> _getDataBase() async {
   final dbPath = await sql.getDatabasesPath();
@@ -18,14 +18,6 @@ Future<Database> _getDataBase() async {
     version: 1,
   );
   return db;
-}
-
-abstract interface class TaskDB {
-  Future<void> addItem(Task task);
-  Future<void> removeItem(String id);
-  Future<void> updateItem(String id, Task newTask);
-  Future<List> getAll();
-  Future<void> patch(List<Task> tasks);
 }
 
 class TaskListDBStorage implements TaskDB {

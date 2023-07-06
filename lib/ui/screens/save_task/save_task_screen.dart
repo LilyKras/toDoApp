@@ -99,7 +99,11 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
             ? null
             : () async {
                 Navigator.of(context).pop();
-                await ref.read(allTasksProvider.notifier).deleteTask(arguments!.id)? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(0);
+                await ref
+                        .read(allTasksProvider.notifier)
+                        .deleteTask(arguments!.id)
+                    ? ref.read(counterProvider.notifier).updateCounter(-1)
+                    : ref.read(counterProvider.notifier).updateCounter(0);
                 log('info', 'Change screen to MainScreen');
               },
         child: Row(
@@ -171,7 +175,9 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
                 );
                 arguments == null
                     ? await ref.read(allTasksProvider.notifier).addTask(temp)
-                    : await ref.read(allTasksProvider.notifier).updateTask(arguments!.id, temp);
+                    : await ref
+                        .read(allTasksProvider.notifier)
+                        .updateTask(arguments!.id, temp);
                 log('info', 'Change screen to MainScreen');
               }
             },

@@ -10,9 +10,8 @@ class TaskAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-
     var showDone = ref.watch(doneStatusProvider) as bool;
-    
+
     Widget title = Padding(
       padding: const EdgeInsets.only(left: 28, right: 20),
       child: Flex(
@@ -34,22 +33,21 @@ class TaskAppBar extends ConsumerWidget {
             ),
           ),
           IconButton(
-              padding: const EdgeInsets.only(top: 8),
-              onPressed: () async {
-                ref.read(doneStatusProvider.notifier).toggleShowDone();
-                // await clearAll(); //проверка для себя
-              },
-              icon: !showDone
-                  ? Icon(
-                      Icons.visibility,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                  : Icon(
-                      Icons.visibility_off,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-            ),
-          
+            padding: const EdgeInsets.only(top: 8),
+            onPressed: () async {
+              ref.read(doneStatusProvider.notifier).toggleShowDone();
+              // await clearAll(); //проверка для себя
+            },
+            icon: !showDone
+                ? Icon(
+                    Icons.visibility,
+                    color: Theme.of(context).colorScheme.primary,
+                  )
+                : Icon(
+                    Icons.visibility_off,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+          ),
         ],
       ),
     );
@@ -60,14 +58,13 @@ class TaskAppBar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-              '${AppLocalizations.of(context)!.done} - ${ref.watch(counterProvider) as int}',
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodySmall!.color,
-                fontSize: 16,
-                height: 20 / 16,
-              ),
+            '${AppLocalizations.of(context)!.done} - ${ref.watch(counterProvider) as int}',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodySmall!.color,
+              fontSize: 16,
+              height: 20 / 16,
             ),
-          
+          ),
         ],
       ),
     );

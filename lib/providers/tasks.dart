@@ -42,7 +42,9 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
   Future<bool> deleteTask(String id) async {
     bool hasDec = false;
     final existingTaskIndex = state.indexWhere((element) => element.id == id);
-    if (state[existingTaskIndex].doneStatus) {hasDec = true;}
+    if (state[existingTaskIndex].doneStatus) {
+      hasDec = true;
+    }
     List<Task> temp = [];
     for (int i = 0; i < existingTaskIndex; i++) {
       temp.add(state[i]);
@@ -57,8 +59,6 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
 
     return hasDec;
   }
-
-
 
   Future<bool> toggleDoneStatus(String id) async {
     bool hasDec = false;
@@ -81,7 +81,10 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     return hasDec;
   }
 
-  
+  Future<void> fetchAndSetTasks() async {
+    // await patch();
+    state = await _sql.getAll();
+  }
 }
 
 final allTasksProvider = StateNotifierProvider((ref) {
@@ -89,15 +92,12 @@ final allTasksProvider = StateNotifierProvider((ref) {
 });
 
 final tasksProv = Provider((ref) {
-  List <Task> allTasks = ref.watch(allTasksProvider) as List <Task>;
+  List<Task> allTasks = ref.watch(allTasksProvider) as List<Task>;
   bool showDone = ref.watch(doneStatusProvider) as bool;
 
-  if (!showDone){
+  if (!showDone) {
     return allTasks.where((element) => (element.doneStatus == false)).toList();
-  }
-  else{
+  } else {
     return allTasks;
   }
-}
-);
-
+});

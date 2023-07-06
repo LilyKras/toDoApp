@@ -98,8 +98,12 @@ class _TaskItemState extends ConsumerState<TaskItem> {
             return true;
           } else {
             log('info', 'Swipe mode is Done/Undone');
-            
-                await ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id)? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(1);
+
+            await ref
+                    .read(allTasksProvider.notifier)
+                    .toggleDoneStatus(widget.task.id)
+                ? ref.read(counterProvider.notifier).updateCounter(-1)
+                : ref.read(counterProvider.notifier).updateCounter(1);
 
             return false;
           }
@@ -111,119 +115,123 @@ class _TaskItemState extends ConsumerState<TaskItem> {
         onDismissed: (direction) async {
           if (direction == DismissDirection.endToStart) {
             log('info', 'Swipe mode is Delete');
-            
-                await ref.read(allTasksProvider.notifier).deleteTask(widget.task.id) ? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(0);
+
+            await ref.read(allTasksProvider.notifier).deleteTask(widget.task.id)
+                ? ref.read(counterProvider.notifier).updateCounter(-1)
+                : ref.read(counterProvider.notifier).updateCounter(0);
           }
         },
         child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: widget.task.doneStatus,
-                  onChanged: (_) async {
-                    await ref.read(allTasksProvider.notifier).toggleDoneStatus(widget.task.id) ? ref.read(counterProvider.notifier).updateCounter(-1): ref.read(counterProvider.notifier).updateCounter(1);
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Checkbox(
+                value: widget.task.doneStatus,
+                onChanged: (_) async {
+                  await ref
+                          .read(allTasksProvider.notifier)
+                          .toggleDoneStatus(widget.task.id)
+                      ? ref.read(counterProvider.notifier).updateCounter(-1)
+                      : ref.read(counterProvider.notifier).updateCounter(1);
+                },
+                fillColor: MaterialStateProperty.resolveWith(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Theme.of(context).colorScheme.secondary;
+                    } else {
+                      return widget.task.priority == Priority.hight
+                          ? Theme.of(context).colorScheme.error
+                          : Theme.of(context).dividerTheme.color;
+                    }
                   },
-                  fillColor: MaterialStateProperty.resolveWith(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.selected)) {
-                        return Theme.of(context).colorScheme.secondary;
-                      } else {
-                        return widget.task.priority == Priority.hight
-                            ? Theme.of(context).colorScheme.error
-                            : Theme.of(context).dividerTheme.color;
-                      }
-                    },
-                  ),
                 ),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                if (widget.task.priority != Priority.none)
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: emojies,
+              ),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              if (widget.task.priority != Priority.none)
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: emojies,
+                                ),
+                              TextSpan(text: widget.task.text)
+                            ],
+                            style: (widget.task.doneStatus)
+                                ? TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color,
+                                    fontSize: 16,
+                                    height: 20 / 16,
+                                    decorationColor: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color,
+                                  )
+                                : TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .color,
+                                    fontSize: 16,
+                                    height: 20 / 16,
                                   ),
-                                TextSpan(text: widget.task.text)
-                              ],
-                              style: (widget.task.doneStatus)
-                                  ? TextStyle(
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .color,
-                                      fontSize: 16,
-                                      height: 20 / 16,
-                                      decorationColor: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .color,
-                                    )
-                                  : TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color,
-                                      fontSize: 16,
-                                      height: 20 / 16,
-                                    ),
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                      ),
+                      if (widget.task.hasDate)
+                        Text(
+                          DateFormat(
+                            'd MMMM y',
+                            AppLocalizations.of(context)!.locale,
+                          ).format(widget.task.date!),
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodySmall!.color,
+                            fontSize: 14,
+                            height: 20 / 14,
                           ),
                         ),
-                        if (widget.task.hasDate)
-                          Text(
-                            DateFormat(
-                              'd MMMM y',
-                              AppLocalizations.of(context)!.locale,
-                            ).format(widget.task.date!),
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall!.color,
-                              fontSize: 14,
-                              height: 20 / 14,
-                            ),
-                          ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
-                IconButton(
-                  color: Theme.of(context).textTheme.bodySmall!.color,
-                  icon: const Icon(
-                    Icons.info_outline,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      NewTaskScreen.routeName,
-                      arguments: widget.task,
-                    );
-                    log(
-                      'info',
-                      'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
-                    );
-                  },
+              ),
+              IconButton(
+                color: Theme.of(context).textTheme.bodySmall!.color,
+                icon: const Icon(
+                  Icons.info_outline,
+                  size: 25,
                 ),
-              ],
-            ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    NewTaskScreen.routeName,
+                    arguments: widget.task,
+                  );
+                  log(
+                    'info',
+                    'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
+                  );
+                },
+              ),
+            ],
           ),
-        
+        ),
       ),
     );
   }

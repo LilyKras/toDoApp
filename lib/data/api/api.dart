@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 import '../../helpers/enums.dart';
 import '../../models/task.dart';
-import '../../providers/task.dart';
-import '../local storage/tasks_list_db.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../data.dart';
 
 // Future<String> _getId() async {
 //   var deviceInfo = DeviceInfoPlugin();
@@ -31,6 +31,16 @@ String getPriority(Priority a) {
     return 'low';
   }
   return 'basic';
+}
+
+Priority importanceToPriority(String imp) {
+  if (imp == 'low') {
+    return Priority.low;
+  }
+  if (imp == 'important') {
+    return Priority.hight;
+  }
+  return Priority.none;
 }
 
 Future<String> getRevision() async {
