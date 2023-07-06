@@ -41,34 +41,30 @@ class Tasks with ChangeNotifier {
     return _showUndone;
   }
 
-  Future <void> patch() async {
-    List <Task> sqlList = await sql.getAll();
-    List <Task> apiList = await api.getAll();
+  Future<void> patch() async {
+    List<Task> sqlList = await sql.getAll();
+    List<Task> apiList = await api.getAll();
 
-    List <Task> result = [];
+    List<Task> result = [];
 
-    Map <String, Task> helper = {};
+    Map<String, Task> helper = {};
 
-    for (var elem in sqlList){
-        helper[elem.id] = elem;
+    for (var elem in sqlList) {
+      helper[elem.id] = elem;
     }
 
-    for (var elem in apiList){
-      if (helper.containsKey(elem.id)){
-
-      }
+    for (var elem in apiList) {
+      if (helper.containsKey(elem.id)) {}
     }
-
   }
 
   Future<void> fetchAndSetTasks() async {
     int tempCounter = 0;
     // await patch();
-    _myTasks =
-        await sql.getAll(); 
-    for(var  elem in _myTasks){
-      if (elem.doneStatus){
-        tempCounter+= 1;
+    _myTasks = await sql.getAll();
+    for (var elem in _myTasks) {
+      if (elem.doneStatus) {
+        tempCounter += 1;
       }
     }
     _counter = tempCounter;

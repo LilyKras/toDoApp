@@ -21,14 +21,13 @@ Priority stringToPriority(String priority) {
   return Priority.none;
 }
 
-
 class NewTaskScreen extends StatefulWidget {
   NewTaskScreen({super.key});
   String enteredTask = '';
   DateTime? enteredDate;
   bool hasDate = false;
   Priority priority = Priority.none;
-  static const routeName = 'new_task';
+  static const routeName = '/newTask';
 
   @override
   State<NewTaskScreen> createState() => _NewTaskScreenState();

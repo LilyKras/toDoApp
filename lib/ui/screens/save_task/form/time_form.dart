@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
 
-
 class TimeForm extends StatefulWidget {
   TimeForm({super.key, this.arguments});
   bool hasDate = false;
