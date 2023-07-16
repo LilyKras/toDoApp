@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "145943867850",
+    "project_id": "shmr-to-do-app-lilykras",
+    "storage_bucket": "shmr-to-do-app-lilykras.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145943867850:android:caa7ac0d0855f61be2df33",
+        "android_client_info": {
+          "package_name": "com.example.to_do_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNqwCr-w01G2-N6w1Lt_N7m_pG3fp4H2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
