@@ -15,7 +15,6 @@ String priorityToString(Priority priority) {
     return 'Низкий';
   }
   return 'Нет';
-
 }
 
 // ignore: must_be_immutable
@@ -23,7 +22,6 @@ class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
   String priority = list.first;
-  
 
   @override
   State<PriorityForm> createState() => _PriorityFormState();
@@ -31,7 +29,6 @@ class PriorityForm extends StatefulWidget {
 
 class _PriorityFormState extends State<PriorityForm> {
   String priority = list.first;
-
 
   @override
   void didChangeDependencies() {
@@ -91,7 +88,9 @@ class _PriorityFormState extends State<PriorityForm> {
                       ? Text(
                           '!! ${AppLocalizations.of(context)!.high}',
                           style: TextStyle(
-                            color: false? Theme.of(context).colorScheme.error : const Color(0xFF793cd8),
+                            color: false
+                                ? Theme.of(context).colorScheme.error
+                                : const Color(0xFF793cd8),
                             fontSize: 14,
                             height: 20 / 14,
                           ),

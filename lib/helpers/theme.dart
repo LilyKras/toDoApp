@@ -55,7 +55,7 @@ ThemeData darkTheme = ThemeData(
     inversePrimary: backDarkElevated,
     onSurface: labelDarkPrimary,
     background: backDarkPrimary,
-    error:  redDark,
+    error: redDark,
     surface: redDark,
   ),
   iconTheme: const IconThemeData(color: grayDark),

@@ -12,25 +12,24 @@ import 'package:to_do_list/ui/screens/main/main_screen.dart';
 import 'package:to_do_list/ui/screens/save_task/save_task_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Future <void> _init() async {
+Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  FlutterError.onError = (errorDetails){
+  FlutterError.onError = (errorDetails) {
     log('warning', 'Caught error in FlutterError.onError');
     FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
   };
-  PlatformDispatcher.instance.onError=(error, stack){
+  PlatformDispatcher.instance.onError = (error, stack) {
     log('warning', 'Caught error in PlatformDispatcher.onError');
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal:true );
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-
-
 }
+
 Future<void> main() async {
-_init();
+  await _init();
 
   runApp(
     const ProviderScope(

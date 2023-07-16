@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_list/providers/delete.dart';
 
-
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
@@ -43,7 +42,9 @@ class _TaskItemState extends ConsumerState<TaskItem> {
       Icons.priority_high,
       size: 16,
       color: !widget.task.doneStatus
-          ? false? Theme.of(context).colorScheme.error: const Color(0xFF793cd8)
+          ? false
+              ? Theme.of(context).colorScheme.error
+              : const Color(0xFF793cd8)
           : Theme.of(context).textTheme.bodySmall!.color,
     );
     if (widget.task.priority == Priority.low) {
@@ -144,7 +145,9 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                       return Theme.of(context).colorScheme.secondary;
                     } else {
                       return widget.task.priority == Priority.hight
-                          ? false? Theme.of(context).colorScheme.error : const Color(0xFF793cd8)
+                          ? false
+                              ? Theme.of(context).colorScheme.error
+                              : const Color(0xFF793cd8)
                           : Theme.of(context).dividerTheme.color;
                     }
                   },

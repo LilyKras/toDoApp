@@ -19,7 +19,6 @@ class DeleteTaskManager {
   }
 }
 
-
 final deleteTaskManager = Provider(
   (ref) => DeleteTaskManager(
     ref.watch(allTasksProvider.notifier),

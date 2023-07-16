@@ -37,7 +37,7 @@ class TaskAppBar extends ConsumerWidget {
             onPressed: () async {
               ref.read(doneStatusProvider.notifier).toggleShowDone();
               // await clearAll(); //проверка для себя
-              // throw Exception('Crashlytics test'); //была проверка crashlytics 
+              // throw Exception('Crashlytics test'); //была проверка crashlytics
             },
             icon: !showDone
                 ? Icon(
