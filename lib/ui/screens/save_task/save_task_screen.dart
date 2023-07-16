@@ -2,13 +2,13 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/logger.dart';
-import 'package:to_do_list/providers/counter.dart';
 import 'package:to_do_list/providers/tasks.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
+import '../../../providers/delete.dart';
 import 'form/priority_form.dart';
 import 'form/text_form.dart';
 import 'form/time_form.dart';
@@ -101,11 +101,9 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
             ? null
             : () async {
                 Navigator.of(context).pop();
-                await ref
-                        .read(allTasksProvider.notifier)
-                        .deleteTask(arguments!.id)
-                    ? ref.read(counterProvider.notifier).updateCounter(-1)
-                    : ref.read(counterProvider.notifier).updateCounter(0);
+
+                await ref.read(deleteTaskManager).deleteTask(arguments!.id);
+
                 log('info', 'Change screen to MainScreen');
                 FirebaseAnalytics.instance.logEvent(name: 'change_screen');
               },

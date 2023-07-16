@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_list/helpers/enums.dart';
 import 'package:to_do_list/helpers/logger.dart';
@@ -22,6 +24,7 @@ class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
   String priority = list.first;
+  StreamSubscription? subscription;
 
   @override
   State<PriorityForm> createState() => _PriorityFormState();

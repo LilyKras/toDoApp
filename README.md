@@ -81,5 +81,7 @@ tg: @lilykras
 3. Аналитика с помощью Firebase
 24 часа не прошло, ждемс....
 
+![https://ibb.co/dgYbJCR](https://i.ibb.co/C2GJsCf/2023-07-17-00-14-41.png)
+
 4. Firebase App Distribution 
 ![https://ibb.co/SrHLPFF](https://i.ibb.co/ws8vR55/2023-07-16-22-57-44.png) 

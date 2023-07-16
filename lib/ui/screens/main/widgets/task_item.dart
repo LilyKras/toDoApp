@@ -16,6 +16,7 @@ import '../../../../models/task.dart';
 import '../../../../providers/counter.dart';
 // import '../../../../providers/delete.dart';
 import '../../../../providers/tasks.dart';
+import '../../../../providers/toggle_status.dart';
 import '../../save_task/save_task_screen.dart';
 
 class TaskItem extends ConsumerStatefulWidget {
@@ -104,11 +105,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           } else {
             log('info', 'Swipe mode is Done/Undone');
 
-            await ref
-                    .read(allTasksProvider.notifier)
-                    .toggleDoneStatus(widget.task.id)
-                ? ref.read(counterProvider.notifier).updateCounter(-1)
-                : ref.read(counterProvider.notifier).updateCounter(1);
+                await ref.read(toggleTaskManager).toggleTask(widget.task.id);
 
             return false;
           }
