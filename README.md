@@ -21,10 +21,19 @@ tg: @lilykras
 16. Организовано сохранение данных на диск при помощи одной из представленных библиотек (https://pub.dev/packages/sqflite). Реализована работа в оффлайн 
 17. Открывается экран добавления по ссылке (http://lily.dev/newTask) - реализованы deeplinks
 18. Подключила Firebase Analitics, Firebase Crashlytics
+19. Поддержаны 2 флейвора - различия в названии
 
 
 ## Ссылка на загрузку .apk:
 ### [Тык](https://drive.google.com/uc?export=download&id=1bI4WR3Bnti8xx_3Z3HVpe4q8ojyqvFc1)
+
+## Ссылка на загрузку .apk с флейвором prod:
+### [Тык](https://drive.google.com/uc?export=download&id=196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja)
+
+https://drive.google.com/file/d/196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja/view?usp=sharing
+
+## Ссылка на загрузку .apk с флейвором dev:
+### [Тык](https://drive.google.com/uc?export=download&id=1jIj9jJ0MBB4MTJkn05qok6laI9-zLq-6)
 
 
 ## Немного скринов:

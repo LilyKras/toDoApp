@@ -15,6 +15,7 @@ String priorityToString(Priority priority) {
     return 'Низкий';
   }
   return 'Нет';
+
 }
 
 // ignore: must_be_immutable
@@ -22,6 +23,7 @@ class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
   String priority = list.first;
+  
 
   @override
   State<PriorityForm> createState() => _PriorityFormState();
@@ -29,6 +31,7 @@ class PriorityForm extends StatefulWidget {
 
 class _PriorityFormState extends State<PriorityForm> {
   String priority = list.first;
+
 
   @override
   void didChangeDependencies() {

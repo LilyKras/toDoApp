@@ -26,6 +26,8 @@ options: DefaultFirebaseOptions.currentPlatform,
     FirebaseCrashlytics.instance.recordError(error, stack, fatal:true );
     return true;
   };
+
+
 }
 Future<void> main() async {
 _init();
