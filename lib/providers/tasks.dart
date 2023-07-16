@@ -15,8 +15,9 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
   Future<void> addTask(Task task) async {
     state = [...state, task];
     log('info', 'Add new task with id: ${task.id}');
-    await _api.addItem(task);
     await _sql.addItem(task);
+    _api.addItem(task);
+    
   }
 
   Future<void> updateTask(String id, Task newTask) async {
@@ -35,8 +36,9 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     } else {
       log('warning', 'There is no task with this id: $id');
     }
-    await _api.updateItem(id, newTask);
     await _sql.updateItem(id, newTask);
+    _api.updateItem(id, newTask);
+
   }
 
   Future<bool> deleteTask(String id) async {
@@ -54,8 +56,9 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     }
     state = temp;
     log('info', 'Remove task with id: $id');
-    await _api.removeItem(id);
     await _sql.removeItem(id);
+    _api.removeItem(id);
+
 
     return hasDec;
   }
@@ -76,8 +79,9 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
       temp.add(state[i]);
     }
     state = temp;
-    await _api.updateItem(id, state[taskIndex]);
+    
     await _sql.updateItem(id, state[taskIndex]);
+    _api.updateItem(id, state[taskIndex]);
     return hasDec;
   }
 

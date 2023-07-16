@@ -7,11 +7,13 @@ import 'package:to_do_list/helpers/constants.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:to_do_list/providers/delete.dart';
 
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
 import '../../../../providers/counter.dart';
+// import '../../../../providers/delete.dart';
 import '../../../../providers/tasks.dart';
 import '../../save_task/save_task_screen.dart';
 
@@ -76,7 +78,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           ),
         ),
         secondaryBackground: Container(
-          color: Theme.of(context).colorScheme.error,
+          color: Theme.of(context).colorScheme.surface,
           child: Viewport(
             axisDirection: AxisDirection.left,
             slivers: [
@@ -116,9 +118,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           if (direction == DismissDirection.endToStart) {
             log('info', 'Swipe mode is Delete');
 
-            await ref.read(allTasksProvider.notifier).deleteTask(widget.task.id)
-                ? ref.read(counterProvider.notifier).updateCounter(-1)
-                : ref.read(counterProvider.notifier).updateCounter(0);
+            await ref.read(deleteTaskManager).deleteTask(widget.task.id);
           }
         },
         child: Padding(

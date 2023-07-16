@@ -22,13 +22,9 @@ Priority stringToPriority(String priority) {
   return Priority.none;
 }
 
-// ignore: must_be_immutable
 class NewTaskScreen extends ConsumerStatefulWidget {
-  NewTaskScreen({super.key});
-  String enteredTask = '';
-  DateTime? enteredDate;
-  bool hasDate = false;
-  Priority priority = Priority.none;
+  const NewTaskScreen({super.key});
+
   static const routeName = '/newTask';
 
   @override
@@ -41,16 +37,21 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
   late TextForm textForm;
   late PriorityForm priorityForm;
 
+  String enteredTask = '';
+  DateTime? enteredDate;
+  bool hasDate = false;
+  Priority priority = Priority.none;
+
   bool saveItem() {
-    widget.enteredDate = timeForm.selectedDate;
-    widget.hasDate = timeForm.hasDate;
+    enteredDate = timeForm.selectedDate;
+    hasDate = timeForm.hasDate;
     if (!_formKey.currentState!.validate()) {
       log('warning', "Form doesn't save because it is not valide");
       return false;
     }
     _formKey.currentState!.save();
-    widget.enteredTask = textForm.text;
-    widget.priority = stringToPriority(priorityForm.priority);
+    enteredTask = textForm.text;
+    priority = stringToPriority(priorityForm.priority);
     log('info', 'Form saved succesfully');
     return true;
   }
@@ -81,15 +82,15 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
   Widget build(BuildContext context) {
     var uid = const Uuid();
     if (arguments == null) {
-      widget.enteredTask = '';
-      widget.enteredDate = null;
-      widget.hasDate = false;
-      widget.priority = Priority.none;
+      enteredTask = '';
+      enteredDate = null;
+      hasDate = false;
+      priority = Priority.none;
     } else {
-      widget.enteredTask = arguments!.text;
-      widget.enteredDate = arguments!.date;
-      widget.hasDate = arguments!.hasDate;
-      widget.priority = arguments!.priority;
+      enteredTask = arguments!.text;
+      enteredDate = arguments!.date;
+      hasDate = arguments!.hasDate;
+      priority = arguments!.priority;
     }
 
     var deleteButton = Padding(
@@ -112,7 +113,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
               Icons.delete,
               color: arguments == null
                   ? Theme.of(context).disabledColor
-                  : Theme.of(context).colorScheme.error,
+                  : Theme.of(context).colorScheme.surface,
             ),
             const SizedBox(
               width: 10,
@@ -122,7 +123,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
               style: TextStyle(
                 color: arguments == null
                     ? Theme.of(context).disabledColor
-                    : Theme.of(context).colorScheme.error,
+                    : Theme.of(context).colorScheme.surface,
                 fontSize: 16,
                 height: 20 / 16,
               ),
@@ -167,11 +168,11 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
                 Navigator.of(context).pop();
                 Task temp = Task(
                   id: arguments == null ? uid.v1() : arguments!.id,
-                  text: widget.enteredTask,
-                  priority: widget.priority,
-                  hasDate: widget.hasDate,
+                  text: enteredTask,
+                  priority: priority,
+                  hasDate: hasDate,
                   doneStatus: arguments == null ? false : arguments!.doneStatus,
-                  date: widget.enteredDate,
+                  date: enteredDate,
                 );
                 arguments == null
                     ? await ref.read(allTasksProvider.notifier).addTask(temp)
