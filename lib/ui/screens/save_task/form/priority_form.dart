@@ -70,7 +70,7 @@ class _PriorityFormState extends State<PriorityForm> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
               value: priority,
@@ -88,7 +88,7 @@ class _PriorityFormState extends State<PriorityForm> {
                       ? Text(
                           '!! ${AppLocalizations.of(context)!.high}',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
+                            color: false? Theme.of(context).colorScheme.error : const Color(0xFF793cd8),
                             fontSize: 14,
                             height: 20 / 14,
                           ),
