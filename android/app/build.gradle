@@ -80,7 +80,7 @@ android {
 
             dimension "default"
             resValue "string", "appNameFalavor", "To Do List"
-            applicationIdSuffix ""
+            applicationIdSuffix ".prod"
 
         }
     }
