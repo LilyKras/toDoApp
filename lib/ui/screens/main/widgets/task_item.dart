@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,7 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_list/providers/delete.dart';
-import 'package:to_do_list/providers/done_tasks.dart';
+
 
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
@@ -228,6 +229,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                     'info',
                     'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
                   );
+                  FirebaseAnalytics.instance.logEvent(name: 'change_screen');
                 },
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/logger.dart';
@@ -106,6 +107,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
                     ? ref.read(counterProvider.notifier).updateCounter(-1)
                     : ref.read(counterProvider.notifier).updateCounter(0);
                 log('info', 'Change screen to MainScreen');
+                FirebaseAnalytics.instance.logEvent(name: 'change_screen');
               },
         child: Row(
           children: [
@@ -152,6 +154,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
           onPressed: () {
             Navigator.of(context).pop();
             log('info', 'Change screen to MainScreen');
+            FirebaseAnalytics.instance.logEvent(name: 'change_screen');
           },
           icon: Icon(
             Icons.close,
@@ -180,6 +183,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
                         .read(allTasksProvider.notifier)
                         .updateTask(arguments!.id, temp);
                 log('info', 'Change screen to MainScreen');
+                FirebaseAnalytics.instance.logEvent(name: 'change_screen');
               }
             },
             child: Padding(
