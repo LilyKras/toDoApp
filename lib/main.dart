@@ -8,6 +8,7 @@ import 'package:to_do_list/firebase_options.dart';
 import 'package:to_do_list/helpers/logger.dart';
 
 import 'package:to_do_list/helpers/theme.dart';
+import 'package:to_do_list/providers/config_repository.dart';
 import 'package:to_do_list/ui/screens/main/main_screen.dart';
 import 'package:to_do_list/ui/screens/save_task/save_task_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,6 +27,7 @@ Future<void> _init() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  await RemoteConfigsService.create();
 }
 
 Future<void> main() async {

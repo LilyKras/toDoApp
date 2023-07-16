@@ -1,5 +1,5 @@
-import 'dart:async';
-
+// import 'dart:async';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/helpers/enums.dart';
 import 'package:to_do_list/helpers/logger.dart';
@@ -24,7 +24,6 @@ class PriorityForm extends StatefulWidget {
   PriorityForm({super.key, required this.arguments});
   Task? arguments;
   String priority = list.first;
-  StreamSubscription? subscription;
 
   @override
   State<PriorityForm> createState() => _PriorityFormState();
@@ -32,6 +31,8 @@ class PriorityForm extends StatefulWidget {
 
 class _PriorityFormState extends State<PriorityForm> {
   String priority = list.first;
+  FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.instance;
+  
 
   @override
   void didChangeDependencies() {
@@ -91,7 +92,7 @@ class _PriorityFormState extends State<PriorityForm> {
                       ? Text(
                           '!! ${AppLocalizations.of(context)!.high}',
                           style: TextStyle(
-                            color: false
+                            color: firebaseRemoteConfig.getBool('priorityColorSwitcher')
                                 ? Theme.of(context).colorScheme.error
                                 : const Color(0xFF793cd8),
                             fontSize: 14,
