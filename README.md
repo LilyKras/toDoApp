@@ -22,6 +22,8 @@ tg: @lilykras
 17. Открывается экран добавления по ссылке (http://lily.dev/newTask) - реализованы deeplinks
 18. Подключила Firebase Analitics, Firebase Crashlytics
 19. Поддержаны 2 флейвора - различия в названии
+20. Есть распространение через сервис Firebase App Distribution(https://appdistribution.firebase.dev/i/ae1144ee85c8f950)
+21. 
 
 
 ## Ссылка на загрузку .apk:
@@ -29,8 +31,6 @@ tg: @lilykras
 
 ## Ссылка на загрузку .apk с флейвором prod:
 ### [Тык](https://drive.google.com/uc?export=download&id=196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja)
-
-https://drive.google.com/file/d/196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja/view?usp=sharing
 
 ## Ссылка на загрузку .apk с флейвором dev:
 ### [Тык](https://drive.google.com/uc?export=download&id=1jIj9jJ0MBB4MTJkn05qok6laI9-zLq-6)
@@ -76,8 +76,10 @@ https://drive.google.com/file/d/196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja/view?usp=shari
 ![https://ibb.co/VC4crvR](https://i.ibb.co/qgQ3XRK/2023-07-16-19-20-18.png) 
 
 2. Remote Configs 
+![https://ibb.co/QbbB68T](https://i.ibb.co/GxxwVs8/2023-07-16-23-02-59.png) 
 
 3. Аналитика с помощью Firebase
 24 часа не прошло, ждемс....
 
 4. Firebase App Distribution 
+![https://ibb.co/SrHLPFF](https://i.ibb.co/ws8vR55/2023-07-16-22-57-44.png) 
