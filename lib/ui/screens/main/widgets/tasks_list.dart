@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_list/providers/tasks.dart';
+
 import 'package:to_do_list/ui/screens/main/widgets/task_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../providers/task.dart';
 import '../../save_task/save_task_screen.dart';
 
-class TasksList extends StatelessWidget {
+class TasksList extends ConsumerWidget {
   const TasksList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     var addNewTask = Padding(
       padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 10),
       child: InkWell(
@@ -52,20 +53,18 @@ class TasksList extends StatelessWidget {
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: Theme.of(context).cardTheme.color,
-          child: Consumer<Tasks>(
-            builder: (ctx, tasks, _) => Padding(
-              padding: tasks.myTasks.isEmpty
-                  ? const EdgeInsets.only()
-                  : const EdgeInsets.only(top: 8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ...tasks.myTasks.map(
-                    (val) => TaskItem(task: val),
-                  ),
-                  addNewTask
-                ],
-              ),
+          child: Padding(
+            padding: (ref.watch(tasksProv)).isEmpty
+                ? const EdgeInsets.only()
+                : const EdgeInsets.only(top: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ...(ref.watch(tasksProv)).map(
+                  (val) => TaskItem(task: val),
+                ),
+                addNewTask
+              ],
             ),
           ),
         ),

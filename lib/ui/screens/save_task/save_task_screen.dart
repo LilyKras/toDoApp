@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/logger.dart';
+import 'package:to_do_list/providers/counter.dart';
+import 'package:to_do_list/providers/tasks.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
-import '../../../providers/task.dart';
 import 'form/priority_form.dart';
 import 'form/text_form.dart';
 import 'form/time_form.dart';
@@ -21,7 +22,8 @@ Priority stringToPriority(String priority) {
   return Priority.none;
 }
 
-class NewTaskScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class NewTaskScreen extends ConsumerStatefulWidget {
   NewTaskScreen({super.key});
   String enteredTask = '';
   DateTime? enteredDate;
@@ -30,10 +32,10 @@ class NewTaskScreen extends StatefulWidget {
   static const routeName = '/newTask';
 
   @override
-  State<NewTaskScreen> createState() => _NewTaskScreenState();
+  ConsumerState<NewTaskScreen> createState() => _NewTaskScreenState();
 }
 
-class _NewTaskScreenState extends State<NewTaskScreen> {
+class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
   Task? arguments;
   late TimeForm timeForm;
   late TextForm textForm;
@@ -95,10 +97,13 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       child: InkWell(
         onTap: arguments == null
             ? null
-            : () {
+            : () async {
                 Navigator.of(context).pop();
-                Provider.of<Tasks>(context, listen: false)
-                    .deleteTask(arguments!.id);
+                await ref
+                        .read(allTasksProvider.notifier)
+                        .deleteTask(arguments!.id)
+                    ? ref.read(counterProvider.notifier).updateCounter(-1)
+                    : ref.read(counterProvider.notifier).updateCounter(0);
                 log('info', 'Change screen to MainScreen');
               },
         child: Row(
@@ -169,9 +174,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   date: widget.enteredDate,
                 );
                 arguments == null
-                    ? await Provider.of<Tasks>(context, listen: false)
-                        .addTask(temp)
-                    : await Provider.of<Tasks>(context, listen: false)
+                    ? await ref.read(allTasksProvider.notifier).addTask(temp)
+                    : await ref
+                        .read(allTasksProvider.notifier)
                         .updateTask(arguments!.id, temp);
                 log('info', 'Change screen to MainScreen');
               }

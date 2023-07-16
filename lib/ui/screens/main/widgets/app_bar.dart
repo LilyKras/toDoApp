@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../../providers/task.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_list/providers/done_tasks.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TaskAppBar extends StatelessWidget {
+import '../../../../providers/counter.dart';
+
+class TaskAppBar extends ConsumerWidget {
   const TaskAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    var showDone = ref.watch(doneStatusProvider) as bool;
+
     Widget title = Padding(
       padding: const EdgeInsets.only(left: 28, right: 20),
       child: Flex(
@@ -28,23 +32,21 @@ class TaskAppBar extends StatelessWidget {
               ),
             ),
           ),
-          Consumer<Tasks>(
-            builder: (context, value, _) => IconButton(
-              padding: const EdgeInsets.only(top: 8),
-              onPressed: () async {
-                value.toggleShowDone();
-                // await clearAll(); //проверка для себя
-              },
-              icon: value.showUndone
-                  ? Icon(
-                      Icons.visibility,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                  : Icon(
-                      Icons.visibility_off,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-            ),
+          IconButton(
+            padding: const EdgeInsets.only(top: 8),
+            onPressed: () async {
+              ref.read(doneStatusProvider.notifier).toggleShowDone();
+              // await clearAll(); //проверка для себя
+            },
+            icon: !showDone
+                ? Icon(
+                    Icons.visibility,
+                    color: Theme.of(context).colorScheme.primary,
+                  )
+                : Icon(
+                    Icons.visibility_off,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
           ),
         ],
       ),
@@ -55,16 +57,14 @@ class TaskAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Consumer<Tasks>(
-            builder: (context, tasks, child) => Text(
-              '${AppLocalizations.of(context)!.done} - ${tasks.counter}',
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodySmall!.color,
-                fontSize: 16,
-                height: 20 / 16,
-              ),
+          Text(
+            '${AppLocalizations.of(context)!.done} - ${ref.watch(counterProvider) as int}',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodySmall!.color,
+              fontSize: 16,
+              height: 20 / 16,
             ),
-          )
+          ),
         ],
       ),
     );
