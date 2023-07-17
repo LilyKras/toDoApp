@@ -135,10 +135,8 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-
         child: Container(
           constraints: const BoxConstraints(maxWidth: 600),
-
           child: Form(
             key: _formKey,
             child: ListView(
