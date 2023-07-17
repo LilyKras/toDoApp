@@ -137,7 +137,8 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                       return Theme.of(context).colorScheme.secondary;
                     } else {
                       return widget.task.priority == Priority.hight
-                          ? firebaseRemoteConfig.getBool('priorityColorSwitcher')
+                          ? firebaseRemoteConfig
+                                  .getBool('priorityColorSwitcher')
                               ? Theme.of(context).colorScheme.error
                               : const Color(0xFF793cd8)
                           : Theme.of(context).dividerTheme.color;

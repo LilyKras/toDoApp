@@ -32,7 +32,6 @@ class PriorityForm extends StatefulWidget {
 class _PriorityFormState extends State<PriorityForm> {
   String priority = list.first;
   FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.instance;
-  
 
   @override
   void didChangeDependencies() {
@@ -92,7 +91,8 @@ class _PriorityFormState extends State<PriorityForm> {
                       ? Text(
                           '!! ${AppLocalizations.of(context)!.high}',
                           style: TextStyle(
-                            color: firebaseRemoteConfig.getBool('priorityColorSwitcher')
+                            color: firebaseRemoteConfig
+                                    .getBool('priorityColorSwitcher')
                                 ? Theme.of(context).colorScheme.error
                                 : const Color(0xFF793cd8),
                             fontSize: 14,

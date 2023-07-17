@@ -15,8 +15,7 @@ class ToggleTaskManager {
     final toggled = await _allTasksNotifier.toggleDoneStatus(taskId);
     if (toggled) {
       _counterNotifier.updateCounter(-1);
-    }
-    else {
+    } else {
       _counterNotifier.updateCounter(1);
     }
   }
