@@ -70,6 +70,9 @@ tg: @lilykras
 
 Не знаю, вроде норм выглядит... Что хотели в этом критерии мне не понятно 
 
+Могу еще вот так сделать:
+![https://ibb.co/3r8VfWg](https://i.ibb.co/h7nrXH3/Simulator-Screenshot-i-Pad-Air-5th-generation-2023-07-17-at-05-22-41.png)
+
 Работа с firebase:
 
 1. Firebase Crashlytics

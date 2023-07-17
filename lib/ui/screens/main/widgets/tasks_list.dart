@@ -48,27 +48,31 @@ class TasksList extends ConsumerWidget {
       ),
     );
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: Theme.of(context).cardTheme.color,
-          child: Padding(
-            padding: (ref.watch(tasksProv)).isEmpty
-                ? const EdgeInsets.only()
-                : const EdgeInsets.only(top: 8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ...(ref.watch(tasksProv)).map(
-                  (val) => TaskItem(task: val),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                color: Theme.of(context).cardTheme.color,
+                child: Padding(
+                  padding: (ref.watch(tasksProv)).isEmpty
+                      ? const EdgeInsets.only()
+                      : const EdgeInsets.only(top: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...(ref.watch(tasksProv)).map(
+                        (val) => TaskItem(task: val),
+                      ),
+                      addNewTask
+                    ],
+                  ),
                 ),
-                addNewTask
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+      
     );
   }
 }

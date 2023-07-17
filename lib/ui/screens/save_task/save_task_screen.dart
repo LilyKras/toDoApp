@@ -134,17 +134,24 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
     );
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            textForm,
-            priorityForm,
-            Divider(color: Theme.of(context).dividerTheme.color),
-            timeForm,
-            Divider(color: Theme.of(context).dividerTheme.color),
-            deleteButton,
-          ],
+      body: Center(
+
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                textForm,
+                priorityForm,
+                Divider(color: Theme.of(context).dividerTheme.color),
+                timeForm,
+                Divider(color: Theme.of(context).dividerTheme.color),
+                deleteButton,
+              ],
+            ),
+          ),
         ),
       ),
       appBar: AppBar(
