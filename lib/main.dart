@@ -1,19 +1,38 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/firebase_options.dart';
+import 'package:to_do_list/helpers/logger.dart';
 
 import 'package:to_do_list/helpers/theme.dart';
+import 'package:to_do_list/providers/config_repository.dart';
 import 'package:to_do_list/ui/screens/main/main_screen.dart';
 import 'package:to_do_list/ui/screens/save_task/save_task_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Future<void> main() async {
+Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterError.onError = (errorDetails) {
+    log('warning', 'Caught error in FlutterError.onError');
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    log('warning', 'Caught error in PlatformDispatcher.onError');
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  await RemoteConfigsService.create();
+}
+
+Future<void> main() async {
+  await _init();
+
   runApp(
     const ProviderScope(
       child: MyApp(),

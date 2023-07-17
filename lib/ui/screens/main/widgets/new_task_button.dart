@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../helpers/constants.dart';
@@ -14,6 +15,7 @@ class NewTaskButton extends StatelessWidget {
       onPressed: () async {
         Navigator.of(context).pushNamed(NewTaskScreen.routeName);
         log('info', 'Change screen to SaveScreen');
+        FirebaseAnalytics.instance.logEvent(name: 'change_screen');
       },
       child: const Icon(
         Icons.add,

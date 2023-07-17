@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/models/task.dart';
 import 'package:to_do_list/providers/done_tasks.dart';
@@ -17,7 +18,8 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     log('info', 'Add new task with id: ${task.id}');
     await _sql.addItem(task);
     _api.addItem(task);
-    
+
+    FirebaseAnalytics.instance.logEvent(name: 'add_task');
   }
 
   Future<void> updateTask(String id, Task newTask) async {
@@ -38,7 +40,6 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     }
     await _sql.updateItem(id, newTask);
     _api.updateItem(id, newTask);
-
   }
 
   Future<bool> deleteTask(String id) async {
@@ -59,6 +60,7 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
     await _sql.removeItem(id);
     _api.removeItem(id);
 
+    FirebaseAnalytics.instance.logEvent(name: 'delete_task');
 
     return hasDec;
   }
@@ -79,9 +81,13 @@ class AllTasksNotifier extends StateNotifier<List<Task>> {
       temp.add(state[i]);
     }
     state = temp;
-    
+
     await _sql.updateItem(id, state[taskIndex]);
     _api.updateItem(id, state[taskIndex]);
+    hasDec
+        ? FirebaseAnalytics.instance.logEvent(name: 'undone_task')
+        : FirebaseAnalytics.instance.logEvent(name: 'done_task');
+
     return hasDec;
   }
 

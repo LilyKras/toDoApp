@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,9 +14,7 @@ import 'package:to_do_list/providers/delete.dart';
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
-import '../../../../providers/counter.dart';
-// import '../../../../providers/delete.dart';
-import '../../../../providers/tasks.dart';
+import '../../../../providers/toggle_status.dart';
 import '../../save_task/save_task_screen.dart';
 
 class TaskItem extends ConsumerStatefulWidget {
@@ -27,6 +27,7 @@ class TaskItem extends ConsumerStatefulWidget {
 
 class _TaskItemState extends ConsumerState<TaskItem> {
   late double dismissProgress;
+  FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.instance;
 
   @override
   void initState() {
@@ -41,7 +42,9 @@ class _TaskItemState extends ConsumerState<TaskItem> {
       Icons.priority_high,
       size: 16,
       color: !widget.task.doneStatus
-          ? Theme.of(context).colorScheme.error
+          ? firebaseRemoteConfig.getBool('priorityColorSwitcher')
+              ? Theme.of(context).colorScheme.error
+              : const Color(0xFF793cd8)
           : Theme.of(context).textTheme.bodySmall!.color,
     );
     if (widget.task.priority == Priority.low) {
@@ -101,11 +104,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           } else {
             log('info', 'Swipe mode is Done/Undone');
 
-            await ref
-                    .read(allTasksProvider.notifier)
-                    .toggleDoneStatus(widget.task.id)
-                ? ref.read(counterProvider.notifier).updateCounter(-1)
-                : ref.read(counterProvider.notifier).updateCounter(1);
+            await ref.read(toggleTaskManager).toggleTask(widget.task.id);
 
             return false;
           }
@@ -130,11 +129,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
               Checkbox(
                 value: widget.task.doneStatus,
                 onChanged: (_) async {
-                  await ref
-                          .read(allTasksProvider.notifier)
-                          .toggleDoneStatus(widget.task.id)
-                      ? ref.read(counterProvider.notifier).updateCounter(-1)
-                      : ref.read(counterProvider.notifier).updateCounter(1);
+                  await ref.read(toggleTaskManager).toggleTask(widget.task.id);
                 },
                 fillColor: MaterialStateProperty.resolveWith(
                   (Set<MaterialState> states) {
@@ -142,7 +137,10 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                       return Theme.of(context).colorScheme.secondary;
                     } else {
                       return widget.task.priority == Priority.hight
-                          ? Theme.of(context).colorScheme.error
+                          ? firebaseRemoteConfig
+                                  .getBool('priorityColorSwitcher')
+                              ? Theme.of(context).colorScheme.error
+                              : const Color(0xFF793cd8)
                           : Theme.of(context).dividerTheme.color;
                     }
                   },
@@ -227,6 +225,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                     'info',
                     'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
                   );
+                  FirebaseAnalytics.instance.logEvent(name: 'change_screen');
                 },
               ),
             ],
