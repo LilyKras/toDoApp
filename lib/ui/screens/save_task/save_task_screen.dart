@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
+import '../../../navigation/navigator.dart';
 import '../../../providers/delete.dart';
 import 'form/priority_form.dart';
 import 'form/text_form.dart';
@@ -100,7 +101,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
         onTap: arguments == null
             ? null
             : () async {
-                Navigator.of(context).pop();
+                changeScreenToMainScreen(context);
 
                 await ref.read(deleteTaskManager).deleteTask(arguments!.id);
 
@@ -155,7 +156,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            changeScreenToMainScreen(context);
             log('info', 'Change screen to MainScreen');
             FirebaseAnalytics.instance.logEvent(name: 'change_screen');
           },
@@ -171,7 +172,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
           TextButton(
             onPressed: () async {
               if (saveItem()) {
-                Navigator.of(context).pop();
+                changeScreenToMainScreen(context);
                 Task temp = Task(
                   id: arguments == null ? uid.v1() : arguments!.id,
                   text: enteredTask,

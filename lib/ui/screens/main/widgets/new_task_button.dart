@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../helpers/constants.dart';
 import '../../../../helpers/logger.dart';
-import '../../save_task/save_task_screen.dart';
+import '../../../../navigation/navigator.dart';
 
 class NewTaskButton extends StatelessWidget {
   const NewTaskButton({super.key});
@@ -13,7 +13,7 @@ class NewTaskButton extends StatelessWidget {
     return FloatingActionButton(
       shape: const CircleBorder(),
       onPressed: () async {
-        Navigator.of(context).pushNamed(NewTaskScreen.routeName);
+        changeScreenToNewTaskScreen(context);
         log('info', 'Change screen to SaveScreen');
         FirebaseAnalytics.instance.logEvent(name: 'change_screen');
       },
