@@ -27,7 +27,7 @@ jobs:
       - run: flutter pub get
       - run: dart format --set-exit-if-changed .
   
-  build:
+  build-ios:
     name: Build 
     runs-on: macos-latest
     steps:
