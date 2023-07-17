@@ -6,7 +6,7 @@ on: push
 jobs:
   analyze:
     name: Analyzer and formatter
-    runs-on: ubunty-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps: 
       - uses: actions/checkout@v2
