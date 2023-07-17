@@ -1,5 +1,4 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +26,6 @@ class TaskItem extends ConsumerStatefulWidget {
 
 class _TaskItemState extends ConsumerState<TaskItem> {
   late double dismissProgress;
-  FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.instance;
 
   @override
   void initState() {
@@ -42,9 +40,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
       Icons.priority_high,
       size: 16,
       color: !widget.task.doneStatus
-          ? firebaseRemoteConfig.getBool('priorityColorSwitcher')
-              ? Theme.of(context).colorScheme.error
-              : const Color(0xFF793cd8)
+          ? Theme.of(context).colorScheme.error
           : Theme.of(context).textTheme.bodySmall!.color,
     );
     if (widget.task.priority == Priority.low) {
@@ -137,10 +133,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                       return Theme.of(context).colorScheme.secondary;
                     } else {
                       return widget.task.priority == Priority.hight
-                          ? firebaseRemoteConfig
-                                  .getBool('priorityColorSwitcher')
-                              ? Theme.of(context).colorScheme.error
-                              : const Color(0xFF793cd8)
+                          ? Theme.of(context).colorScheme.error
                           : Theme.of(context).dividerTheme.color;
                     }
                   },

@@ -1,11 +1,14 @@
 // import 'dart:async';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:to_do_list/helpers/enums.dart';
 import 'package:to_do_list/helpers/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../models/task.dart';
+import '../../../../providers/config_repository.dart';
 
 const List<String> list = <String>['Нет', 'Низкий', '‼ Высокий'];
 
@@ -88,16 +91,19 @@ class _PriorityFormState extends State<PriorityForm> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: value == '‼ Высокий'
-                      ? Text(
-                          '!! ${AppLocalizations.of(context)!.high}',
-                          style: TextStyle(
-                            color: firebaseRemoteConfig
-                                    .getBool('priorityColorSwitcher')
-                                ? Theme.of(context).colorScheme.error
-                                : const Color(0xFF793cd8),
-                            fontSize: 14,
-                            height: 20 / 14,
-                          ),
+                      ? Observer(
+                          builder: (_) {
+                            return Text(
+                              '!! ${AppLocalizations.of(context)!.high}',
+                              style: TextStyle(
+                                color: GetIt.I<MainController>().isRed.value!
+                                    ? Theme.of(context).colorScheme.error
+                                    : const Color(0xFF793cd8),
+                                fontSize: 14,
+                                height: 20 / 14,
+                              ),
+                            );
+                          },
                         )
                       : value == 'Нет'
                           ? Text(

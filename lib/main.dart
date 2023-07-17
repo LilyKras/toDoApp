@@ -3,7 +3,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:to_do_list/firebase_options.dart';
 import 'package:to_do_list/helpers/logger.dart';
 
@@ -27,7 +29,7 @@ Future<void> _init() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  await RemoteConfigsService.create();
+  GetIt.I.registerSingleton<MainController>(await MainController.init());
 }
 
 Future<void> main() async {
@@ -46,25 +48,29 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('ru'), // Russian
-      ],
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      home: const MainScreen(),
-      routes: {
-        MainScreen.routeName: (ctx) => const MainScreen(),
-        NewTaskScreen.routeName: (ctx) => const NewTaskScreen(),
+    return Observer(
+      builder: (_) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'), // English
+            Locale('ru'), // Russian
+          ],
+          theme: lightTheme(GetIt.I<MainController>().isRed.value!),
+          darkTheme: darkTheme(GetIt.I<MainController>().isRed.value!),
+          themeMode: ThemeMode.system,
+          home: const MainScreen(),
+          routes: {
+            MainScreen.routeName: (ctx) => const MainScreen(),
+            NewTaskScreen.routeName: (ctx) => const NewTaskScreen(),
+          },
+        );
       },
     );
   }
