@@ -5,7 +5,7 @@ on: push
 
 jobs:
   analyze:
-    name: Analyzer and formatter
+    name: Analyzer
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps: 
@@ -15,7 +15,18 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze --no-fatal-infos 
-
+  format:
+    name: Formating
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: dart format
+  
   build:
     name: Build 
     runs-on: ubuntu-latest
