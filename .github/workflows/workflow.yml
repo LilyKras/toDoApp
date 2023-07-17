@@ -49,3 +49,26 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter build ios --no-codesign
+      
+  test:
+    name: Test 
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.5'
+          cache: true
+      - run: flutter pub get
+      - run: flutter test
+        id: test
+      - if: ${{ failure() && steps.test.conclusion == 'failure' }}
+        name: 'Upload test failures'
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-failures
+          path: test/failures
+          retention-days: 5
+    
+    
