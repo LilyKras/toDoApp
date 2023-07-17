@@ -14,8 +14,8 @@ import 'package:to_do_list/providers/delete.dart';
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
+import '../../../../navigation/navigator.dart';
 import '../../../../providers/toggle_status.dart';
-import '../../save_task/save_task_screen.dart';
 
 class TaskItem extends ConsumerStatefulWidget {
   const TaskItem({super.key, required this.task});
@@ -217,10 +217,8 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                   size: 25,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    NewTaskScreen.routeName,
-                    arguments: widget.task,
-                  );
+                  changeScreenToNewTaskScreen(context, widget.task);
+
                   log(
                     'info',
                     'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',

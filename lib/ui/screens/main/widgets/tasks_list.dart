@@ -5,7 +5,7 @@ import 'package:to_do_list/providers/tasks.dart';
 import 'package:to_do_list/ui/screens/main/widgets/task_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../save_task/save_task_screen.dart';
+import '../../../../navigation/navigator.dart';
 
 class TasksList extends ConsumerWidget {
   const TasksList({super.key});
@@ -15,7 +15,7 @@ class TasksList extends ConsumerWidget {
     var addNewTask = Padding(
       padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 10),
       child: InkWell(
-        onTap: () => Navigator.of(context).pushNamed(NewTaskScreen.routeName),
+        onTap: () => changeScreenToNewTaskScreen(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
