@@ -22,8 +22,8 @@ tg: @lilykras
 17. Открывается экран добавления по ссылке (http://lily.dev/newTask) - реализованы deeplinks
 18. Подключила Firebase Analitics, Firebase Crashlytics
 19. Поддержаны 2 флейвора - различия в названии
-20. Есть распространение через сервис Firebase App Distribution(https://appdistribution.firebase.dev/i/ae1144ee85c8f950)
-21. 
+20. Есть распространение через сервис Firebase App Distribution (https://appdistribution.firebase.dev/i/ae1144ee85c8f950)
+21. Реализована работа с Remote Configs, но не работает рантайм-переключение цвета важности (дефолтный красный по Фигме vs #FF793cd8)
 
 
 ## Ссылка на загрузку .apk:
