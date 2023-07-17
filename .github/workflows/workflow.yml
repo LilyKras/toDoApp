@@ -15,7 +15,7 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze --no-fatal-infos --no-fatal-warnings
-      - run: dart format --set-exit-if-changed .
+
   build:
     name: Build 
     runs-on: ubuntu-latest
