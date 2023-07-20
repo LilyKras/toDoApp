@@ -26,9 +26,6 @@ tg: @lilykras
 21. Реализована работа с Remote Configs (дефолтный красный по Фигме vs #FF793cd8)
 
 
-## Ссылка на загрузку .apk:
-### [Тык](https://drive.google.com/uc?export=download&id=1bI4WR3Bnti8xx_3Z3HVpe4q8ojyqvFc1)
-
 ## Ссылка на загрузку .apk с флейвором prod:
 ### [Тык](https://drive.google.com/uc?export=download&id=196zfK6CNt5wkiVUWYc5N3BeN968Lp6Ja)
 
