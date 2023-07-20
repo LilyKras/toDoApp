@@ -1,3 +1,5 @@
+// import 'dart:async';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/helpers/enums.dart';
 import 'package:to_do_list/helpers/logger.dart';
@@ -29,6 +31,7 @@ class PriorityForm extends StatefulWidget {
 
 class _PriorityFormState extends State<PriorityForm> {
   String priority = list.first;
+  FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.instance;
 
   @override
   void didChangeDependencies() {
@@ -70,7 +73,7 @@ class _PriorityFormState extends State<PriorityForm> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
               value: priority,

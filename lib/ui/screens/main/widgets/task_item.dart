@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,10 +13,8 @@ import 'package:to_do_list/providers/delete.dart';
 import '../../../../helpers/enums.dart';
 import '../../../../helpers/logger.dart';
 import '../../../../models/task.dart';
-import '../../../../providers/counter.dart';
-// import '../../../../providers/delete.dart';
-import '../../../../providers/tasks.dart';
-import '../../save_task/save_task_screen.dart';
+import '../../../../navigation/navigator.dart';
+import '../../../../providers/toggle_status.dart';
 
 class TaskItem extends ConsumerStatefulWidget {
   const TaskItem({super.key, required this.task});
@@ -101,11 +100,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
           } else {
             log('info', 'Swipe mode is Done/Undone');
 
-            await ref
-                    .read(allTasksProvider.notifier)
-                    .toggleDoneStatus(widget.task.id)
-                ? ref.read(counterProvider.notifier).updateCounter(-1)
-                : ref.read(counterProvider.notifier).updateCounter(1);
+            await ref.read(toggleTaskManager).toggleTask(widget.task.id);
 
             return false;
           }
@@ -130,11 +125,7 @@ class _TaskItemState extends ConsumerState<TaskItem> {
               Checkbox(
                 value: widget.task.doneStatus,
                 onChanged: (_) async {
-                  await ref
-                          .read(allTasksProvider.notifier)
-                          .toggleDoneStatus(widget.task.id)
-                      ? ref.read(counterProvider.notifier).updateCounter(-1)
-                      : ref.read(counterProvider.notifier).updateCounter(1);
+                  await ref.read(toggleTaskManager).toggleTask(widget.task.id);
                 },
                 fillColor: MaterialStateProperty.resolveWith(
                   (Set<MaterialState> states) {
@@ -219,14 +210,13 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                   size: 25,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    NewTaskScreen.routeName,
-                    arguments: widget.task,
-                  );
+                  changeScreenToNewTaskScreen(context, widget.task);
+
                   log(
                     'info',
                     'Change screen to SaveScreen, push arguments: Task with id ${widget.task.id}',
                   );
+                  FirebaseAnalytics.instance.logEvent(name: 'change_screen');
                 },
               ),
             ],

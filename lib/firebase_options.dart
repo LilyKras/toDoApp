@@ -69,7 +69,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '145943867850',
     projectId: 'shmr-to-do-app-lilykras',
     storageBucket: 'shmr-to-do-app-lilykras.appspot.com',
-    iosClientId: '145943867850-fk8mpjsf6l1648ctms6hflgf8ud67eka.apps.googleusercontent.com',
+    iosClientId:
+        '145943867850-fk8mpjsf6l1648ctms6hflgf8ud67eka.apps.googleusercontent.com',
     iosBundleId: 'com.example.toDoList666',
   );
 }

@@ -23,6 +23,12 @@ dependencies:
   sqflite: ^2.2.8+4
   flutter_riverpod: ^2.1.1
   firebase_core: ^2.15.0
+  firebase_crashlytics: ^3.3.3
+  firebase_analytics: ^10.4.3
+  firebase_remote_config: ^4.2.3
+  flutter_mobx: ^2.0.6+5
+  mobx: ^2.2.0
+  get_it: ^7.6.0
 
 dev_dependencies:
   flutter_test:

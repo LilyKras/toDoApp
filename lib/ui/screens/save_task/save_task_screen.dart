@@ -1,13 +1,15 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_list/helpers/logger.dart';
-import 'package:to_do_list/providers/counter.dart';
 import 'package:to_do_list/providers/tasks.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers/enums.dart';
 import '../../../models/task.dart';
+import '../../../navigation/navigator.dart';
+import '../../../providers/delete.dart';
 import 'form/priority_form.dart';
 import 'form/text_form.dart';
 import 'form/time_form.dart';
@@ -99,13 +101,12 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
         onTap: arguments == null
             ? null
             : () async {
-                Navigator.of(context).pop();
-                await ref
-                        .read(allTasksProvider.notifier)
-                        .deleteTask(arguments!.id)
-                    ? ref.read(counterProvider.notifier).updateCounter(-1)
-                    : ref.read(counterProvider.notifier).updateCounter(0);
+                changeScreenToMainScreen(context);
+
+                await ref.read(deleteTaskManager).deleteTask(arguments!.id);
+
                 log('info', 'Change screen to MainScreen');
+                FirebaseAnalytics.instance.logEvent(name: 'change_screen');
               },
         child: Row(
           children: [
@@ -134,24 +135,30 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
     );
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            textForm,
-            priorityForm,
-            Divider(color: Theme.of(context).dividerTheme.color),
-            timeForm,
-            Divider(color: Theme.of(context).dividerTheme.color),
-            deleteButton,
-          ],
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                textForm,
+                priorityForm,
+                Divider(color: Theme.of(context).dividerTheme.color),
+                timeForm,
+                Divider(color: Theme.of(context).dividerTheme.color),
+                deleteButton,
+              ],
+            ),
+          ),
         ),
       ),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            changeScreenToMainScreen(context);
             log('info', 'Change screen to MainScreen');
+            FirebaseAnalytics.instance.logEvent(name: 'change_screen');
           },
           icon: Icon(
             Icons.close,
@@ -165,7 +172,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
           TextButton(
             onPressed: () async {
               if (saveItem()) {
-                Navigator.of(context).pop();
+                changeScreenToMainScreen(context);
                 Task temp = Task(
                   id: arguments == null ? uid.v1() : arguments!.id,
                   text: enteredTask,
@@ -180,6 +187,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
                         .read(allTasksProvider.notifier)
                         .updateTask(arguments!.id, temp);
                 log('info', 'Change screen to MainScreen');
+                FirebaseAnalytics.instance.logEvent(name: 'change_screen');
               }
             },
             child: Padding(

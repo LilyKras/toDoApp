@@ -33,7 +33,80 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145943867850:android:260a6e97f6183aa9e2df33",
+        "android_client_info": {
+          "package_name": "com.example.to_do_list.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNqwCr-w01G2-N6w1Lt_N7m_pG3fp4H2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145943867850-fk8mpjsf6l1648ctms6hflgf8ud67eka.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toDoList666"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145943867850:android:44f4552f20b724b7e2df33",
+        "android_client_info": {
+          "package_name": "com.example.to_do_list.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNqwCr-w01G2-N6w1Lt_N7m_pG3fp4H2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145943867850-s0o752uc1i78rn63js79martjrelf4q8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145943867850-fk8mpjsf6l1648ctms6hflgf8ud67eka.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toDoList666"
+              }
+            }
+          ]
+        }
+      }
     }
+
   ],
   "configuration_version": "1"
 }
